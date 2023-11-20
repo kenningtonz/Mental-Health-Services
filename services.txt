@@ -1,0 +1,36 @@
+services
+
+name,
+subtypes,
+goodFor,
+description,
+whatToExpect,
+cost,
+length
+
+
+behavoural therapy
+    focus actioned-oritened
+
+    subtypes
+        Systematic desensitization
+        Aversion therapy
+        flooding
+    good for addressing
+        anxiety
+        phobias
+        substance use disorder
+        attention deficit hyperactivity disorder
+         obsessive compulsive disorder (OCD)
+       oppositional and defiant behaviors
+        behavioral issues that result from communication difficulties or emotional challenges
+
+Cognitive behavioral therapy 
+
+Psychodynamic Therapy
+Dialectical Behavior Therapy
+ Cognitive Processing Therapy
+ Prolonged Exposure Therapy
+ Interpersonal Therapy
+
+ https://www.everydayhealth.com/emotional-health/different-types-of-therapy/
