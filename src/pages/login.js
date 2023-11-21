@@ -1,9 +1,12 @@
-import { useNavigate, redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import {loggedIn} from '../index.js';
 
 const Login = () => {
     const navigate = useNavigate();
     function home(event){
         event.preventDefault();
+        loggedIn.value = true;
+        console.log(loggedIn.value);
         navigate('/');
     }
     return (
