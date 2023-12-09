@@ -1,20 +1,20 @@
-import {React, useEffect} from 'react';
+import { React, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { signal } from "@preact/signals";
 import { BrowserRouter, Route, Routes, Navigate, useRoutes } from 'react-router-dom';
 
-import './index.css';
-import Layout from './pages/layout';
-import { Service, Services, ServicesList } from './pages/services';
-import Login from './pages/login';
-import User from './pages/user';
-import Cart from './pages/cart';
-import Checkout from './pages/checkout';
-import PurchaseComplete from './pages/purchase-complete';
-import Home from './pages/home';
-import EditUser from './pages/edit-user';
+import {UserInfo, ForgotPass, SignIn, SignUp, EditUser} from './components';
+import {Cart, Checkout, PurchaseComplete, LandingPage, UserProfile, Home} from './pages';
 
-let therapies = {
+import './css/index.css';
+import './css/landingpage.css';
+import './css/services.css';
+import Layout from './pages/layout';
+import { Service, Services, ServicesList, ServicesListCart } from './pages/services';
+
+
+
+export const therapies = {
   'firstService': {
     title: 'First Service',
   },
@@ -35,36 +35,40 @@ export const loggedIn = signal(false);
 
 export default function App() {
 
-console.log(loggedIn.value)
+  console.log(loggedIn.value)
 
 
   return (
     <BrowserRouter>
       <Routes>
 
-        <Route path="login" element={ <Login />} />
+        {/* landing page */}
+        <Route path="/landing/" element={<LandingPage />} >
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="forgotpass" element={<ForgotPass />} />
+        </Route>
         <Route path="/" element={<Layout />}>
-
-          {/* landing page */}
           <Route path="/" element={<Home />} />
 
           {/* cart page */}
-          <Route path="cart/*" element={<Cart />}>
-            <Route path="checkout/*" element={<Checkout />} >
-              <Route path="success" element={<PurchaseComplete />} />
-            </Route>
-          </Route>
+          <Route path="cart/*" element={<Cart />} />
+          <Route path="cart/checkout" element={<Checkout />} />
+          <Route path="cart/checkout/success" element={<PurchaseComplete />} />
+
+
 
           {/* user page */}
-          <Route path="user/*" element={<User />}>
+          <Route path="user/*" element={<UserProfile />}>
+            <Route path="" element={<UserInfo />} />
             <Route path="edit" element={<EditUser />} />
           </Route>
 
           <Route path="/services" element={<Services />}>
-            <Route index element={<ServicesList therapies={therapies} />} />
-            <Route path=":slug" element={<Service therapies={therapies} />} />
+            <Route index element={<ServicesList therapies={therapies}/>} />
             {/* https://blog.logrocket.com/react-router-v6-guide/#building-functional-components */}
           </Route>
+            <Route path="/services/:slug" element={<Service therapies={therapies} />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

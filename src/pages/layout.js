@@ -3,12 +3,11 @@ import { loggedIn } from "../index.js";
 
 const Layout = () => {
     if (!loggedIn.value) {
-        return <Navigate replace to='/login' />
+        return <Navigate replace to='/landing/signin' />
     } else
         return (
             <>
                 <header>
-                    <h1>Header</h1>
                     <nav>
                         <ul >
                             <li>
@@ -29,13 +28,14 @@ const Layout = () => {
                         </ul>
                     </nav>
                 </header>
-                <article className="body">
-                    <Outlet />
-
+                <div className="body">
+            
+                        <Outlet />
+                 
                     <footer>
                         <p>© 2023</p>
                     </footer>
-                </article>
+                </div>
             </>
         )
 };

@@ -1,0 +1,60 @@
+.landingPageInfo {
+    text-align: center;
+    
+}
+
+.landingPage h1 {
+    color: black;
+    text-align: center;
+    font-size: 2rem;
+    padding-bottom: 0.5rem;
+}
+
+.landingPage form {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.landingPage label {
+    margin: 0.8rem 0;
+}
+
+.landingPage input {
+    padding: 0.5rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid #ccc;
+}
+
+.landingPage button {
+    padding: 0.6rem;
+    border: none;
+    cursor: pointer;
+}
+
+.landingPage img {
+    width: 75%;
+    height: auto;
+}
+
+.landingPage {
+    display: flex;
+    flex-direction: row;
+max-width: 800px;
+    justify-content: center;
+    margin: auto;
+}
+
+#root:has(.landingPage) {
+    flex-direction: column;
+    align-items: center;
+    container-type: inline-size;
+    container-name: landingPage;
+}
+
+/* If the container is larger than 500px */
+@container landingPage (width < 500px) {
+    .landingPage {
+      flex-direction: column;
+    }
+}

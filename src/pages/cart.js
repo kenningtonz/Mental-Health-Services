@@ -1,10 +1,26 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { ServicesListCart } from './services';
+
+ const cart = {
+    'firstService': {
+      title: 'First Service',
+    },
+    'secondService': {
+      title: 'Second Service',
+    }
+  }
+
 const Cart = () => {
     return (
-        <div>
-            <h1>cart</h1>
+        <main>
+            <h1>Your Cart</h1>
+
+            <section className="card">
+
+            <ServicesListCart cart={cart} />
+            </section>
             <Link to="/cart/checkout">Checkout</Link>
-        </div>
+        </main>
     )
 }
 

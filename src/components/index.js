@@ -1,0 +1,5 @@
+export {default as EditUser} from "./edit-user"
+export {default as ForgotPass} from "./forgotpass"
+export {default as SignIn} from "./signin"
+export {default as SignUp} from "./signup"
+export {default as UserInfo} from "./userInfo"
