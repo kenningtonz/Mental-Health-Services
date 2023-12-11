@@ -1,7 +1,12 @@
 import { Outlet, Link, Navigate } from "react-router-dom";
 import { loggedIn } from "../index.js";
+import logo from '../images/logo.png';
 
 const Layout = () => {
+    function signOut() {
+        loggedIn.value = false;
+        localStorage.setItem('isLoggedIn', '0')
+    }
     if (!loggedIn.value) {
         return <Navigate replace to='/landing/signin' />
     } else
@@ -11,19 +16,19 @@ const Layout = () => {
                     <nav>
                         <ul >
                             <li>
-                                <Link to="/">Home</Link>
+                                <Link to="/"><img src={logo} alt="" /> </Link>
                             </li>
                             <li>
-                                <Link to="/services">Services</Link>
+                                <Link to="/services"><i className="fa-solid fa-list-ul"></i>Services</Link>
                             </li>
                             <li>
-                                <Link to="/cart">Cart</Link>
+                                <Link to="/cart"><i className="fa-solid fa-cart-shopping"></i>Cart</Link>
                             </li>
                             <li>
-                                <Link to="/user">User</Link>
+                                <Link to="/user"><i className="fa-solid fa-user"></i>User</Link>
                             </li>
                             <li>
-                                <Link to="/login">login</Link>
+                                <Link to="/landing/signin" onClick={signOut}><i className="fa-solid fa-right-from-bracket"></i>Sign Out</Link>
                             </li>
                         </ul>
                     </nav>

@@ -1,0 +1,17 @@
+.landingPageInfo {
+    text-align: center;
+    
+}
+
+
+#root:has(.landingPage) {
+    flex-direction: column;
+    align-items: center;
+    container-type: inline-size;
+    container-name: landingPage;
+}
+
+// .cartRow{
+//     display: flex;
+//     flex-direction: row;
+// }

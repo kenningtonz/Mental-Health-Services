@@ -1,71 +1,92 @@
-import { Outlet, Link, useParams } from "react-router-dom";
-import image from "../imageholder.png";
+import { Link, useParams } from "react-router-dom";
+// import { signal  } from "@preact/signals";
+import { images } from '../images/services/index.js';
+import { services, addToCart,removeFromCart } from '../firebase.js';
+import {filteredServices, cart} from '../index.js';
 
+
+
+// const name = signal('services');
 const Services = () => {
+    filteredServices.value = services;
+    function filterService(type){ 
+        console.log(type)
+        filteredServices.value = services.filter((service) => service.type === type); 
+        console.log(filteredServices.value)
+        console.log(filteredServices)
+    }
+
+    console.log(filteredServices.value)
+    console.log(filteredServices)
+// effect(() =>console.log(filteredServices.value))
+    const types = ['bandc', 'holistic', 'humanistic', 'interpersonal', 'physical'];
     return (
         <main className="containerCol ServicesPage">
             <h1>Services</h1>
-
             <section >
-                <h2>Catagories</h2>
-                <ul className="containerRow">
-                    <li>
-                        Category 1
-                    </li>
-                    <li>
-                        Category 2
-                    </li>
-                    <li>
-                        Category 3
-                    </li>
-                    <li>
-                        Category 4
-                    </li>
-                </ul>
+                <h2>Categories</h2>
+                <section className="categoryBtns">
+                    {types.map((Val, id) => {
+                        return (
+                            <button key={id} onClick={() => filterService(Val)}>{Val}</button>
+                        );
+                    })}
+                </section>
+         
+
+                  
+    
             </section>
 
             <div className="containerRow">
-                <section className="filter child ">
-                    <h2>filters</h2>
-                    <button>clear all</button>
+                {/* <section className="filter child ">
+                    <h2>Filters</h2>
+                    <button >Clear All</button>
                     <form className="filterForm containerCol">
-                        <label for="priceRange">Price Range:</label>
-                        <select id="priceRange" name="priceRange">
+                        <label for="cost">Price Range:</label>
+                        <select id="cost" name="cost" onChange={handleFilterChange}>
                             <option value="">Any</option>
                             <option value="0-50">$0 - $50</option>
                             <option value="51-100">$51 - $100</option>
                             <option value="101-200">$101 - $200</option>
                             <option value="201+">$201+</option>
                         </select>
-                        <label for="serviceType">Type of Therapy:</label>
-                        <select id="serviceType" name="serviceType">
+                        <label for="type">Type of Therapy:</label>
+                        <select id="type" name="type" onChange={handleFilterChange} >
                             <option value="">Any</option>
+                            <option value="bandc">Behavioral and Cognitive</option>
+                            <option value="holistic">Holistic</option>
+                            <option value="human">Humanistic</option>
+                            <option value="interpersonal">Interpersonal</option>
+                            <option value="physical">Physical</option>
+                            <option value="psychoanalysis">Psychoanalysis</option>
                         </select>
                     </form>
 
-                </section>
+                </section> */}
+       
 
                 <section className="servicesList">
-                    <Outlet />
+                   <ServicesList services={filteredServices} />
                 </section>
             </div>
         </main>
     )
 }
 
-const Service = (props) => {
+const Service = () => {
     const { slug } = useParams();
-    const service = props.therapies[slug];
-    const { title, description } = service;
+    const service = services[slug];
+    const { name, desc, imageName } = service;
     // const navigate = useNavigate();
     return (
         <main className="containerCol">
             <Link to="/services">Back</Link>
             <section className="servicePage containerRow">
-                <img className="" src={image} alt="" />
+                <img src={images[imageName]} alt={name} />
                 <div className="containerCol serviceContent child">
-                    <h1>{title}</h1>
-                    <p>description</p>
+                    <h1>{name}</h1>
+                    <p>{desc}</p>
                     <h2>Good For:</h2>
                     <ul>
                         <li>item 1</li>
@@ -93,47 +114,55 @@ const Service = (props) => {
     )
 }
 
-// this will be done better i promise
 const ServicesList = (props) => {
     return (
-        <ul className="containerRow">
-            {/* object entires converts both property names and values into array */}
-            {Object.entries(props.therapies).map(([slug, { title }]) => (
-                <li className="serviceCard child" key={slug}>
-                    <Link to={`/services/${slug}`}>
-                        <h3>{title}</h3>
+    <ul>
+    {/* object entires converts both property names and values into array */}
+    {Object.entries(props.services.value).map(([slug, { name, oneline, imageName, cost }]) => (
+        <li className="serviceCard" key={slug}>
+            <img src={images[imageName]} alt={name} />
+            <Link to={`/services/${slug}`}>
+                <h3>{name}</h3>
+            </Link>
+            <p className="desc">{oneline}</p>
 
-                        <p className="desc">description</p>
-                        <p className="cost">Cost</p>
-                    </Link>
-                    <button>book now</button>
-                </li>
-            ))}
-        </ul>
-    );
+            <p className="cost">${cost}</p>
+            <button value={slug} onClick={ e=> addToCart(e.target.value)}>Book Now</button>
+        </li>
+    ))}
+</ul>
+    )
 }
 
-const ServicesListCart = (props) => {
+const ServicesListCart = () => {
+// let cart = getCart();
+console.log(cart)
+if(cart == undefined){
+    return (
+        <p>Cart is empty</p>
+    )
+}
+else
     return (
         <table>
             <thead>
                 <tr>
                     <th>Title</th>
                     <th>Price</th>
-                    <th>date</th>
+                    <th>Date</th>
                     <th>remove</th>
                 </tr>
             </thead>
             <tbody>
                 {/* object entires converts both property names and values into array */}
-                {Object.entries(props.cart).map(([slug, { title }]) => (
-                    <tr className="serviceCard child" key={slug}>
-                        <Link to={`/services/${slug}`}>
-                            <td><h3>{title}</h3></td>
-                        </Link>
-                        <td>price</td>
+                {Object.entries(cart.value).map(([slug, { name, cost }]) => (
+                    <tr className="cartRow" key={slug}>
+                    <td>  <Link to={`/services/${slug}`}>
+                         <h3>{name}</h3>
+                        </Link></td>
+                        <td>{cost}</td>
                         <td>date</td>
-                        <button>remove from cart</button>
+                        <td> <button value={slug} onClick={ e=> removeFromCart(e.target.value)} >remove from cart</button></td>
                     </tr>
                 ))}
             </tbody>
@@ -141,4 +170,4 @@ const ServicesListCart = (props) => {
     );
 }
 
-export { Services, Service, ServicesList, ServicesListCart };
+export { Services, Service, ServicesListCart };

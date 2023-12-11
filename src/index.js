@@ -6,23 +6,11 @@ import { BrowserRouter, Route, Routes, Navigate, useRoutes } from 'react-router-
 import {UserInfo, ForgotPass, SignIn, SignUp, EditUser} from './components';
 import {Cart, Checkout, PurchaseComplete, LandingPage, UserProfile, Home} from './pages';
 
-import './css/index.css';
-import './css/landingpage.css';
-import './css/services.css';
+import './css/index.scss';
+import './css/landingpage.scss';
+import './css/services.scss';
 import Layout from './pages/layout';
-import { Service, Services, ServicesList, ServicesListCart } from './pages/services';
-
-
-
-export const therapies = {
-  'firstService': {
-    title: 'First Service',
-  },
-  'secondService': {
-    title: 'Second Service',
-  }
-}
-
+import { Service, Services, ServicesListCart } from './pages/services';
 
 // function Routes(){
 //   const element = useRoutes([
@@ -31,7 +19,15 @@ export const therapies = {
 //   return element;
 // }
 
+
+// const AppState = createContext();
+
+
+
 export const loggedIn = signal(false);
+export const filteredServices = signal(0);
+export const cart = signal([]);
+export const currentUser = signal({});
 
 export default function App() {
 
@@ -65,10 +61,9 @@ export default function App() {
           </Route>
 
           <Route path="/services" element={<Services />}>
-            <Route index element={<ServicesList therapies={therapies}/>} />
             {/* https://blog.logrocket.com/react-router-v6-guide/#building-functional-components */}
           </Route>
-            <Route path="/services/:slug" element={<Service therapies={therapies} />} />
+            <Route path="/services/:slug" element={<Service/>} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
@@ -79,7 +74,9 @@ export default function App() {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  // <AppState.Provider value={createAppState()}>
   <App />
+  // </AppState.Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -8,7 +8,7 @@ const UserProfile = () => {
             <section className="child">
                 <Outlet />
 
-                <Link to="/user/edit">Edit User</Link>
+                
             </section>
 
             <section className="child">

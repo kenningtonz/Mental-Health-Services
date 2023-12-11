@@ -1,0 +1,386 @@
+@use 'sass:math';
+@use 'sass:list';
+
+
+$blue: #89CFF0;
+$green: #B5EAD7;
+$darkGreen: #3e6a5a;
+$lavender: #C7B2DE;
+$grey: #D3D3D3;
+$warm: #A1887F;
+$background: #eae3e1;
+$text-color: #282c34;
+$link-color: #4a3b35;
+
+$colours: $blue, $green, $lavender;
+
+
+$boxshadow: 1px 1px 5px 0 $text-color;
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Playpen+Sans:wght@400;500;700&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-family: 'Nunito', sans-serif;
+}
+
+article{
+  h3{
+    font-weight: 500;
+  }
+  padding: 0.5rem 0;
+  border-bottom: 2px solid list.nth($colours, random(3));
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Playpen Sans', cursive;
+
+}
+
+body {
+  margin: 0px;
+  min-height: 100vh;
+  background-color: $background;
+}
+
+.hero {
+  box-shadow: $boxshadow;
+
+  img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+}
+
+p {
+  font-size: 1rem;
+  color: $text-color;
+  font-family: 'Nunito', sans-serif;
+}
+
+#root {
+  /* padding: 2rem; */
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+header {
+  padding: 0.5rem;
+  background-color: #282c34;
+  color: white;
+
+}
+
+
+
+a:hover {
+  color: $text-color;
+}
+
+a {
+  color: $link-color;
+}
+
+.landingPage {
+  #notice {
+    text-align: center;
+    color: rgb(89, 16, 16);
+    margin-bottom: 0.5rem;
+  }
+
+  section {
+    padding: 1rem;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  a {
+    padding-bottom: 0.5rem;
+  }
+
+  form {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    margin: 0.8rem 0;
+  }
+
+  input {
+    padding: 0.5rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid #ccc;
+  }
+
+  .landingLink {
+    text-align: center;
+    margin: 0.5rem 0;
+  }
+
+  button {
+
+    color: $background;
+    background-color: $warm;
+  }
+
+  button:hover {
+    background-color: $grey;
+    color: $text-color;
+  }
+
+  img {
+    width: 75%;
+    height: auto;
+  }
+
+  display: flex;
+  flex-direction: row;
+  max-width: 800px;
+  justify-content: center;
+  margin: auto;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: $boxshadow;
+}
+
+/* If the container is larger than 500px */
+@container landingPage (width < 500px) {
+  .landingPage {
+    flex-direction: column;
+  }
+}
+
+nav {
+  position: sticky;
+  top: 0;
+
+  a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+    img {
+      width: 60px;
+      height: 60px;
+      transition: all .2s ease-in-out;
+    }
+    i{
+      font-size: 2rem;
+      transition: all .2s ease-in-out;
+      display: block;
+    }
+
+    img:hover, i:hover {
+      transform: scale(1.1);
+
+    }
+    
+  }
+  a:hover{
+    color: $grey;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #282c34;
+    color: white;
+    list-style: none;
+
+    li {
+      padding: 1rem 0.5rem;
+      background-color: #282c34;
+      color: white;
+      // margin: 0.5rem;
+ 
+    }
+  }
+}
+
+
+footer {
+  margin-top: auto;
+  height: 2rem;
+  width: 100%;
+  background-color: $link-color;
+
+  p {
+    color: $background;
+  }
+
+}
+
+.body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+main {
+  padding: 1rem;
+}
+
+.containerRow {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.containerCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.editUser {
+  display: flex;
+  flex-direction: column;
+}
+
+.editUserButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+}
+
+ul.containerRow,
+ul.containerCol {
+  list-style: none;
+}
+
+.filter {
+  align-self: stretch;
+}
+
+.child {
+  flex: 1;
+}
+
+.filterForm {
+  gap: 1rem;
+
+}
+
+
+.servicesList {
+  flex: 5;
+
+  ul {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  li {
+    flex: 1;
+  }
+}
+
+button {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.serviceCard {
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: $boxshadow;
+  padding: 1rem;
+  min-width: 200px;
+align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap:0.8rem;
+
+.cost{
+  text-align: center;
+  font-size: bold;
+}
+  img {
+    width: 60%;
+    height: auto;
+    position: relative;
+    border-radius: 10px;
+  }
+
+  button {
+    background-color: $green;
+    color: $text-color;
+  }
+
+  button:hover {
+    background-color: $darkGreen;
+    color: $background;
+  }
+
+  p {
+    text-align: left;
+  }
+
+}
+
+.featuredService h3 {
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+.featuredServices button {
+  align-self: center;
+}
+
+.card {
+  padding: 1rem;
+  margin: 1rem;
+  height: auto;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: $boxshadow;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+}
+
+th {
+  font-weight: bold;
+}
