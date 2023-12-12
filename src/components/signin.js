@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { loggedIn } from '../index.js';
 import { checkUser } from "../firebase.js";
-import {handleFormChange, getDefault} from "../pages/landingPage.js";
+import { handleFormChange, getDefault } from "../pages/landingPage.js";
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -21,9 +21,9 @@ const SignIn = () => {
         const email = event.target.elements.email.value;
         const password = event.target.elements.password.value;
         let user = { email: email, password: password };
-        if(checkUser(user)){
+        if (checkUser(user)) {
             home(event);
-        }else{
+        } else {
             document.getElementById("notice").innerHTML = "Incorrect email or password";
         }
     }
@@ -34,13 +34,13 @@ const SignIn = () => {
 
             <form onSubmit={checkLogin}>
                 <label htmlFor="email">Email</label>
-                <input type="text" id="email" required onChange={handleFormChange} defaultValue={getDefault(`email`)}/>
+                <input type="text" id="email" required onChange={handleFormChange} defaultValue={getDefault(`email`)} />
                 <label htmlFor="password">Password</label>
                 <input type="text" id="password" required onChange={handleFormChange} defaultValue={getDefault(`password`)} />
                 <Link to="/landing/forgotpass">Forgot Password?</Link>
-          <p id="notice"></p>
+                <p id="notice"></p>
                 <button type="submit"> Sign In</button>
-          <Link to="/landing/signup" className="landingLink">Create an Account</Link>
+                <Link to="/landing/signup" className="landingLink">Create an Account</Link>
             </form>
 
 

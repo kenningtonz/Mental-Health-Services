@@ -30,6 +30,11 @@ servicesSnapshot.forEach((doc) => {
     // console.log(doc.id, " => ", doc.data().type);
 });
 
+const ordersSnapshot = await getDocs(collection(db, "orders"));
+const orderNumbers = [];
+ordersSnapshot.forEach((doc) => {
+    orderNumbers.push(doc.data().orderNumbers);
+});
 
 const usersSnapshot = await getDocs(collection(db, "users"));
 const users = [];
@@ -78,7 +83,8 @@ export function addUser(userInfo) {
         firstName: userInfo.firstname,
         lastName: userInfo.lastname,
         cart: [],
-        purchases: []
+        purchases: [],
+        payment: {card: 0, expMonth: 0, expYear: 0, cvv: 0}
     });
     console.log("added")
 }
@@ -177,12 +183,12 @@ export function getTotalCost(){
     cart.value.forEach((service)=>{
         total += service.cost * service.amount;
     })
-    return total;
-
+    return [total.toFixed(2), (total * 1.13).toFixed(2)];
 }
 
 export function completePurchase(){
-    let purchase = {services: cart.value, totalCost: getTotalCost()}
+    
+    let purchase = {order: Math.max(orderNumbers) + 1, date: new Date() ,services: cart.value, totalCost: getTotalCost()[0]}
     currentUser.value.purchases.push(purchase);
     updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         purchases: currentUser.value.purchases
@@ -192,8 +198,17 @@ export function completePurchase(){
     updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         cart: currentUser.value.cart
     });
+    
     console.log("completed purchase")
+}
 
+export function getPurchase(isLatest){
+    if(isLatest){
+        return currentUser.value.purchases[currentUser.value.purchases.length - 1];
+    }
+    else{
+        return currentUser.value.purchases;
+    }
 }
 
 // export { getCart, editUser, checkUserExists, addUser, changeUser, services, addToCart, removeFromCart, checkUser };

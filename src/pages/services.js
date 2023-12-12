@@ -2,30 +2,54 @@ import { Link, useParams } from "react-router-dom";
 import { images } from '../images/services/index.js';
 import { services, addToCart, removeFromCart } from '../firebase.js';
 import { filteredServices, cart, title } from '../index.js';
+import { useEffect } from "react";
 
 
+let tempServices = [];
 
-// const name = signal('services');
+function filterService(type) {
+    filteredServices.value = services.filter((service) => service.type == type);
+    title.value = type;
+ 
+    tempServices = filteredServices.value;
+}
+
 const Services = () => {
-    filteredServices.value = services;
-    function filterService(type) {
-        console.log(type)
-        filteredServices.value = services.filter((service) => service.type == type);
-        title.value = type;
+    {
+        useEffect(() => {
+            console.log("useeffect")
+            filteredServices.value = services;
+            tempServices = filteredServices.value;
+        }, [tempServices])
+    }
+    function setActiveButton(e) {
+        let buttons =document.querySelectorAll(".categoryBtns button");
+
+        e.preventDefault();
+        console.log(buttons)
+        buttons.forEach((button) => {
+            if (button != e.target) {
+                button.className = "";
+                console.log(button.className)
+            }
+        });
+        e.target.className = "active";
     }
 
     const types = ['bandc', 'holistic', 'humanistic', 'interpersonal', 'physical'];
+    const typeLabels = ['Behavioral and Cognitive', 'Holistic', 'Humanistic', 'Interpersonal', 'Physical']
     return (
         <main className="containerCol ServicesPage">
             <h1>Services</h1>
             <section >
-                <h2>Categories {title.value}</h2>
+                <h2>Categories</h2>
                 <section className="categoryBtns">
                     {types.map((Val, id) => {
                         return (
-                            <button key={id} onClick={() => filterService(Val)}>{Val}</button>
+                            <button id={Val} key={id} onClick={(e) => {filterService(Val);    setActiveButton(e)}}>{typeLabels[types.indexOf(Val)]}</button>
                         );
-                    })}
+                    })
+                    }
                 </section>
             </section>
 
@@ -56,10 +80,7 @@ const Services = () => {
 
                 </section> */}
                 <section className="servicesList">
-                    {/* <ServicesList/> */}
-                    {useEffect(() => {
-                        ServicesList()
-                    }, [filteredServices.value])}
+                    <ServicesList props={tempServices} />
                 </section>
             </div>
         </main>
@@ -108,17 +129,21 @@ const Service = () => {
     )
 }
 
-function ServicesList() {
+const ServicesList = (props) => {
     // console.log(props.services)
-    console.log(filteredServices.value)
+
+    // console.log(filteredServices.value)
+    // {useEffect(() => {
+    //     {/* console.log() */}
+    //     filteredServices.value = [...filteredServices.value]
+    // }, filteredServices.value)}
+
     return (
         <ul>
             {/* object entires converts both property names and values into array */}
             {filteredServices.value.map((service) => (
                 <li className="serviceCard" key={services.indexOf(service)}>
                     <img src={images[service.imageName]} alt={service.name} />
-                    {/* {filteredServices.value = [...filteredServices.value]} */}
-                    console.log(filteredServices.value)
                     <Link to={`/services/${services.indexOf(service)}`}>
                         <h3>{service.name}</h3>
                     </Link>

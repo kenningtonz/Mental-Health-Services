@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
+import {getPurchase} from '../firebase.js';
 const PurchaseComplete = () => {
+    let receipt = getPurchase(true);
+    console.log(receipt)
     return (
         <main>
             <h1>PurchaseComplete</h1>
@@ -7,10 +10,9 @@ const PurchaseComplete = () => {
                 <h2>summary</h2>
                 <ul>
                     <li><h3>title</h3>
-                        <p>price</p>
+                        {/* <p>{receipt}</p> */}
                         <p>image</p>
                         <p>description</p>
-                        <button>remove</button>
                         <p>quantity</p>
                     </li>
                 </ul>

@@ -9,8 +9,10 @@ import {Cart, Checkout, PurchaseComplete, LandingPage, UserProfile, Home} from '
 import './css/index.scss';
 import './css/landingpage.scss';
 import './css/services.scss';
+import './css/layout.scss'
 import Layout from './pages/layout';
 import { Service, Services } from './pages/services';
+
 
 // function Routes(){
 //   const element = useRoutes([
@@ -52,8 +54,6 @@ export default function App() {
           <Route path="cart/*" element={<Cart />} />
           <Route path="cart/checkout" element={<Checkout />} />
           <Route path="cart/checkout/success" element={<PurchaseComplete />} />
-
-
 
           {/* user page */}
           <Route path="user/*" element={<UserProfile />}>

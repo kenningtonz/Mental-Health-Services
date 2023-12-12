@@ -1,8 +1,16 @@
 import { Outlet, Link, Navigate } from "react-router-dom";
-import { loggedIn } from "../index.js";
+import { currentUser, loggedIn } from "../index.js";
 import logo from '../images/logo.png';
 
 const Layout = () => {
+    function getCartNotice(){
+if(currentUser == undefined){
+    return '';
+}
+else{
+    return currentUser.value.cart.length;
+}
+    }
     function signOut() {
         loggedIn.value = false;
         localStorage.setItem('isLoggedIn', '0')
@@ -22,7 +30,7 @@ const Layout = () => {
                                 <Link to="/services"><i className="fa-solid fa-list-ul"></i>Services</Link>
                             </li>
                             <li>
-                                <Link to="/cart"><i className="fa-solid fa-cart-shopping"></i>Cart</Link>
+                                <Link to="/cart"><i className="fa-solid fa-cart-shopping"></i>Cart<i id="cartNotice">{}</i></Link>
                             </li>
                             <li>
                                 <Link to="/user"><i className="fa-solid fa-user"></i>User</Link>
