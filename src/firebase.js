@@ -2,10 +2,9 @@
 // import { signal, computed } from "@preact/signals";
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, setDoc, collection, addDoc, updateDoc, getDocs, doc } from "firebase/firestore";
-import { createContext } from "react";
+import { getFirestore, collection, addDoc, updateDoc, getDocs, doc } from "firebase/firestore";
 // https://firebase.google.com/docs/web/setup#available-libraries
-import {cart, currentUser} from "./index.js";
+import { cart, currentUser } from "./index.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -25,19 +24,11 @@ const db = getFirestore(app);
 
 
 const servicesSnapshot = await getDocs(collection(db, "services"));
-const services = [];
+export const services = [];
 servicesSnapshot.forEach((doc) => {
     services.push(doc.data());
     // console.log(doc.id, " => ", doc.data().type);
 });
-
-const typesSnapshot = await getDocs(collection(db, "typesOfServices"));
-
-
-// function typesFilter(type) {
-//     let filtered = services.filter(service => service.type == type);
-//     return filtered;
-// }
 
 
 const usersSnapshot = await getDocs(collection(db, "users"));
@@ -48,18 +39,7 @@ usersSnapshot.forEach((doc) => {
     // console.log(doc.id, " => ", doc.data());
 });
 
-// const state = createAppState();
-
-// function createAppState() {
-//     const types = signal([]);
-//     typesSnapshot.forEach((doc) => {
-//         types.push(doc.data());
-//         // console.log(doc.id, " => ", doc.data());
-//     });
-//     return { types };
-// }
-
-function checkUser(userInfo) {
+export function checkUser(userInfo) {
     let checked = false
     users.forEach((user) => {
         if (user.email === userInfo.email && user.password === userInfo.password) {
@@ -77,7 +57,7 @@ function checkUser(userInfo) {
     }
 }
 
-function checkUserExists(userInfo) {
+export function checkUserExists(userInfo) {
     let checked = false
     users.forEach((user) => {
         if (user.email === userInfo.email) {
@@ -91,19 +71,19 @@ function checkUserExists(userInfo) {
     }
 }
 
-function addUser(userInfo) {
+export function addUser(userInfo) {
     addDoc(doc(db, 'users'), {
         email: userInfo.email,
         password: userInfo.password,
         firstName: userInfo.firstname,
         lastName: userInfo.lastname,
-        // cart: [],
-        // purchases: []
+        cart: [],
+        purchases: []
     });
     console.log("added")
 }
 
-function changeUser(userInfo) {
+export function changeUser(userInfo) {
     let changed = false
     users.forEach((user) => {
         if (user.email === userInfo.email) {
@@ -122,8 +102,8 @@ function changeUser(userInfo) {
     }
 }
 
-function editUser(userInfo) {
-    updateDoc(doc(db, 'users', `${currentUser.id}`), {
+export function editUser(userInfo) {
+    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         firstName: userInfo.firstname,
         lastName: userInfo.lastname,
         address: userInfo.address,
@@ -140,46 +120,80 @@ function editUser(userInfo) {
 }
 
 
-function addToCart(serviceSlug) {
+export function addToCart(serviceSlug) {
     currentUser.value.cart.push(serviceSlug);
-    setDoc(doc(db, 'users', `${currentUser.id}`), {
+    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         cart: currentUser.value.cart
     });
-    cart.value.push(services[serviceSlug]);
-    console.log(currentUser.value.cart)
+    if (cart.value.indexOf(services[serviceSlug]) == -1) {
+        cart.value.push(services[serviceSlug]);
+        cart.value[cart.value.indexOf(services[serviceSlug])].amount = 1;
+    } else {
+        cart.value[cart.value.indexOf(services[serviceSlug])].amount++;
+    }
+    console.log(`currentUser value: ${currentUser.value.cart}`)
+
 }
 
-function removeFromCart(serviceSlug) {
-    let index = currentUser.value.cart.indexOf(serviceSlug);
-    currentUser.value.cart.splice(index, 1);
+export function removeFromCart(serviceSlug) {
+    let index1 = currentUser.value.cart.indexOf(serviceSlug);
+    let index2 = cart.value.indexOf(services[serviceSlug]);
+    currentUser.value.cart.splice(index1, 1);
+    if (cart.value[index2].amount > 1) {
+        cart.value[index2].amount--;
+    } else {
+        cart.value.splice(index2, 1);
+    }
     console.log(currentUser.value.cart)
-    setDoc(doc(db, 'users', `${currentUser.id}`), {
+    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         cart: currentUser.value.cart
     });
-    cart.value.splice(index, 1);
-    console.log(cart.value)
 }
 
-// const remove = computed(() => {
-//     return (serviceSlug) => {
-//         let index = currentUser.value.cart.indexOf(serviceSlug);
-//         currentUser.value.cart.splice(index, 1);
-//         console.log(currentUser.value.cart)
-//         setDoc(doc(db, 'users', `${currentUser.id}`), {
-//             cart: currentUser.value.cart
-//         });
-//         cart.value.splice(index, 1);
-//         console.log(cart.value)
-//     }
-// })
-
-function getCart() {
+export function getCart() {
     let cartTemp = [];
     currentUser.value.cart.forEach((serviceSlug) => {
-        cartTemp.push(services[serviceSlug]);
+        if (cartTemp.indexOf(services[serviceSlug]) == -1) {
+            cartTemp.push(services[serviceSlug]);
+            cartTemp[cartTemp.indexOf(services[serviceSlug])].amount = 1;
+        }
+        else {
+            cartTemp[cartTemp.indexOf(services[serviceSlug])].amount++;
+        }
     })
     console.log(cartTemp)
     return cartTemp;
 }
 
-export {getCart, editUser, checkUserExists, addUser, changeUser, services, addToCart, removeFromCart, checkUser };
+export function savePayment(userInfo){
+    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
+        payment: userInfo
+    });
+    currentUser.value.payment = userInfo;
+    console.log("saved payment")
+}
+export function getTotalCost(){
+    let total = 0;
+    cart.value.forEach((service)=>{
+        total += service.cost * service.amount;
+    })
+    return total;
+
+}
+
+export function completePurchase(){
+    let purchase = {date: new Date(), services: cart.value, totalCost: getTotalCost()}
+    currentUser.value.purchases.push(purchase);
+    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
+        purchases: currentUser.value.purchases
+    });
+    cart.value = [];
+    currentUser.value.cart = [];
+    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
+        cart: currentUser.value.cart
+    });
+    console.log("completed purchase")
+
+}
+
+// export { getCart, editUser, checkUserExists, addUser, changeUser, services, addToCart, removeFromCart, checkUser };

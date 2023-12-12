@@ -20,7 +20,7 @@ const Cart = () => {
 
             <ServicesListCart cart={cart} />
             </section>
-            <Link to="/cart/checkout">Checkout</Link>
+            <Link to="/cart/checkout" >Checkout</Link>
         </main>
     )
 }

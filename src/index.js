@@ -1,6 +1,6 @@
-import { React, useEffect } from 'react';
+import { React } from 'react';
 import ReactDOM from 'react-dom/client';
-import { signal } from "@preact/signals";
+import { signal } from "@preact/signals-react";
 import { BrowserRouter, Route, Routes, Navigate, useRoutes } from 'react-router-dom';
 
 import {UserInfo, ForgotPass, SignIn, SignUp, EditUser} from './components';
@@ -10,7 +10,7 @@ import './css/index.scss';
 import './css/landingpage.scss';
 import './css/services.scss';
 import Layout from './pages/layout';
-import { Service, Services, ServicesListCart } from './pages/services';
+import { Service, Services } from './pages/services';
 
 // function Routes(){
 //   const element = useRoutes([
@@ -25,7 +25,8 @@ import { Service, Services, ServicesListCart } from './pages/services';
 
 
 export const loggedIn = signal(false);
-export const filteredServices = signal(0);
+export const filteredServices = signal([]);
+export const title = signal("title");
 export const cart = signal([]);
 export const currentUser = signal({});
 

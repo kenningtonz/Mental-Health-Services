@@ -1,30 +1,25 @@
 import { Link, useParams } from "react-router-dom";
-// import { signal  } from "@preact/signals";
 import { images } from '../images/services/index.js';
-import { services, addToCart,removeFromCart } from '../firebase.js';
-import {filteredServices, cart} from '../index.js';
+import { services, addToCart, removeFromCart } from '../firebase.js';
+import { filteredServices, cart, title } from '../index.js';
 
 
 
 // const name = signal('services');
 const Services = () => {
     filteredServices.value = services;
-    function filterService(type){ 
+    function filterService(type) {
         console.log(type)
-        filteredServices.value = services.filter((service) => service.type === type); 
-        console.log(filteredServices.value)
-        console.log(filteredServices)
+        filteredServices.value = services.filter((service) => service.type == type);
+        title.value = type;
     }
 
-    console.log(filteredServices.value)
-    console.log(filteredServices)
-// effect(() =>console.log(filteredServices.value))
     const types = ['bandc', 'holistic', 'humanistic', 'interpersonal', 'physical'];
     return (
         <main className="containerCol ServicesPage">
             <h1>Services</h1>
             <section >
-                <h2>Categories</h2>
+                <h2>Categories {title.value}</h2>
                 <section className="categoryBtns">
                     {types.map((Val, id) => {
                         return (
@@ -32,10 +27,6 @@ const Services = () => {
                         );
                     })}
                 </section>
-         
-
-                  
-    
             </section>
 
             <div className="containerRow">
@@ -64,10 +55,11 @@ const Services = () => {
                     </form>
 
                 </section> */}
-       
-
                 <section className="servicesList">
-                   <ServicesList services={filteredServices} />
+                    {/* <ServicesList/> */}
+                    {useEffect(() => {
+                        ServicesList()
+                    }, [filteredServices.value])}
                 </section>
             </div>
         </main>
@@ -96,8 +88,10 @@ const Service = () => {
                     <p>Length</p>
                     <p>Cost</p>
                 </div>
+                <button value={services.indexOf(service)} onClick={e => addToCart(e.target.value)}>Add to Cart</button>
+
             </section>
-            <section className="booking">
+            {/* <section className="booking">
                 <h2>booking</h2>
                 <form>
                     <label htmlFor="date">Date</label>
@@ -108,66 +102,74 @@ const Service = () => {
                     <input type="number" name="quantity" id="quantity" />
                     <button>book now</button>
                 </form>
-            </section>
+            </section> */}
 
         </main>
     )
 }
 
-const ServicesList = (props) => {
+function ServicesList() {
+    // console.log(props.services)
+    console.log(filteredServices.value)
     return (
-    <ul>
-    {/* object entires converts both property names and values into array */}
-    {Object.entries(props.services.value).map(([slug, { name, oneline, imageName, cost }]) => (
-        <li className="serviceCard" key={slug}>
-            <img src={images[imageName]} alt={name} />
-            <Link to={`/services/${slug}`}>
-                <h3>{name}</h3>
-            </Link>
-            <p className="desc">{oneline}</p>
-
-            <p className="cost">${cost}</p>
-            <button value={slug} onClick={ e=> addToCart(e.target.value)}>Book Now</button>
-        </li>
-    ))}
-</ul>
+        <ul>
+            {/* object entires converts both property names and values into array */}
+            {filteredServices.value.map((service) => (
+                <li className="serviceCard" key={services.indexOf(service)}>
+                    <img src={images[service.imageName]} alt={service.name} />
+                    {/* {filteredServices.value = [...filteredServices.value]} */}
+                    console.log(filteredServices.value)
+                    <Link to={`/services/${services.indexOf(service)}`}>
+                        <h3>{service.name}</h3>
+                    </Link>
+                    <p>{title.value}</p>
+                    <p className="desc">{service.oneline}</p>
+                    <p className="cost">${service.cost}</p>
+                    <button value={services.indexOf(service)} onClick={e => addToCart(e.target.value)}>Add to Cart</button>
+                </li>
+            ))}
+        </ul>
     )
 }
 
 const ServicesListCart = () => {
-// let cart = getCart();
-console.log(cart)
-if(cart == undefined){
-    return (
-        <p>Cart is empty</p>
-    )
-}
-else
-    return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Price</th>
-                    <th>Date</th>
-                    <th>remove</th>
-                </tr>
-            </thead>
-            <tbody>
-                {/* object entires converts both property names and values into array */}
-                {Object.entries(cart.value).map(([slug, { name, cost }]) => (
-                    <tr className="cartRow" key={slug}>
-                    <td>  <Link to={`/services/${slug}`}>
-                         <h3>{name}</h3>
-                        </Link></td>
-                        <td>{cost}</td>
-                        <td>date</td>
-                        <td> <button value={slug} onClick={ e=> removeFromCart(e.target.value)} >remove from cart</button></td>
+    // let cart = getCart();
+    console.log(cart)
+    if (cart == undefined) {
+        return (
+            <p>Cart is empty</p>
+        )
+    }
+    else
+        return (
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Date</th>
+                        <th>amount</th>
+                        <th>remove</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
-    );
+                </thead>
+                <tbody>
+                    {/* object entires converts both property names and values into array */}
+                    {cart.value.map(service => (
+                        <tr className="cartRow" key={services.indexOf(service)}>
+                            <td>  <Link to={`/services/${services.indexOf(service)}`}>
+                                <h3>{service.name}</h3>
+                            </Link></td>
+                            <td>{service.cost}</td>
+                            <td>{service.amount}</td>
+                            <td>date</td>
+                            <td> <button value={services.indexOf(service)} onClick={e => { removeFromCart(e.target.value); cart.value = [...cart.value] }} >remove from cart</button></td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        );
 }
+
+
 
 export { Services, Service, ServicesListCart };
