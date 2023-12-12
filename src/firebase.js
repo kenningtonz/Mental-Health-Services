@@ -182,7 +182,7 @@ export function getTotalCost(){
 }
 
 export function completePurchase(){
-    let purchase = {date: new Date(), services: cart.value, totalCost: getTotalCost()}
+    let purchase = {services: cart.value, totalCost: getTotalCost()}
     currentUser.value.purchases.push(purchase);
     updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         purchases: currentUser.value.purchases
