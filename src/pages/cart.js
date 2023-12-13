@@ -1,26 +1,16 @@
 import { Link } from "react-router-dom";
 import { ServicesListCart } from './services';
- 
-
- const cart = {
-    'firstService': {
-      title: 'First Service',
-    },
-    'secondService': {
-      title: 'Second Service',
-    }
-  }
+import { cart } from "../index.js";
 
 const Cart = () => {
     return (
         <main>
             <h1>Your Cart</h1>
-
             <section className="card">
-
-            <ServicesListCart cart={cart} />
+            <ServicesListCart />
+                {cart.value.length == 0 ? <p>Cart is empty</p> : <Link to="/cart/checkout" ><button className="greenBtn"> Checkout</button></Link>}
             </section>
-            <Link to="/cart/checkout" >Checkout</Link>
+
         </main>
     )
 }

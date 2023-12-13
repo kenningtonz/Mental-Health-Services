@@ -2,7 +2,7 @@
 // import { signal, computed } from "@preact/signals";
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, updateDoc, getDocs, doc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, updateDoc, getDocs, doc, arrayUnion, onSnapshot } from "firebase/firestore";
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { cart, currentUser } from "./index.js";
 
@@ -21,7 +21,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
-
 
 const servicesSnapshot = await getDocs(collection(db, "services"));
 export const services = [];
@@ -44,15 +43,21 @@ usersSnapshot.forEach((doc) => {
     // console.log(doc.id, " => ", doc.data());
 });
 
+// FUTURE THOUGHTS
+// const orders = [];
+// const ordersSnap = onSnapshot(getDocs((collection(db, "users")),(doc) =>{
+// }));
+// const userQ = query(collection(db, "users"), where("email", "==", userInfo.email));
+// const userQSnap = await getDocs(q)
+
 export function checkUser(userInfo) {
     let checked = false
     users.forEach((user) => {
         if (user.email === userInfo.email && user.password === userInfo.password) {
-            currentUser.value = user;
+            setUser(user.id);
             console.log("logged in")
             console.log(currentUser)
             checked = true;
-            cart.value = getCart();
         }
     })
     if (checked) {
@@ -60,6 +65,11 @@ export function checkUser(userInfo) {
     } else {
         return false;
     }
+}
+
+export function setUser(id){
+currentUser.value =  users.find(user => user.id === id);
+cart.value = getCart();
 }
 
 export function checkUserExists(userInfo) {
@@ -77,7 +87,7 @@ export function checkUserExists(userInfo) {
 }
 
 export function addUser(userInfo) {
-    addDoc(doc(db, 'users'), {
+    addDoc(collection(db, 'users'), {
         email: userInfo.email,
         password: userInfo.password,
         firstName: userInfo.firstname,
@@ -188,7 +198,7 @@ export function getTotalCost(){
 
 export function completePurchase(){
     
-    let purchase = {order: Math.max(orderNumbers) + 1, date: new Date() ,services: cart.value, totalCost: getTotalCost()[0]}
+    let purchase = {order: Math.max(orderNumbers) + 1, date: new Date() ,services: cart.value, totalCost: getTotalCost()[0], user: currentUser.value.id}
     currentUser.value.purchases.push(purchase);
     updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         purchases: currentUser.value.purchases
@@ -198,11 +208,16 @@ export function completePurchase(){
     updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         cart: currentUser.value.cart
     });
-    
+    updateDoc(doc(db, 'users', `orders`), {
+        orderNumbers: arrayUnion(purchase.order)
+    });
+
     console.log("completed purchase")
 }
 
+
 export function getPurchase(isLatest){
+
     if(isLatest){
         return currentUser.value.purchases[currentUser.value.purchases.length - 1];
     }

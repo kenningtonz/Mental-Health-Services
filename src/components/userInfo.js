@@ -1,17 +1,16 @@
 import { Link } from "react-router-dom";
 import { currentUser } from "../index.js";
-const UserInfo = () => {
+const UserInfo = (props) => {
 
     return (
-        <section className="card">
+        <section className="card userProfile">
             <h2>User Information</h2>
-
-            <p>First Name: {currentUser.value.firstName}</p>
-            <p>Last Name: {currentUser.value.lastName}</p>
-            <p>Address: {currentUser.value.address}</p>
-            <p>Phone Number: {currentUser.value.phone}</p>
-            <p>Email: {currentUser.value.email}</p>
-            <Link to="/user/edit">Edit User</Link>
+            <p><strong>First Name: </strong>{currentUser.value.firstName}</p>
+            <p><strong>Last Name: </strong>{currentUser.value.lastName}</p>
+            <p><strong>Address: </strong>{currentUser.value.address}</p>
+            <p><strong>Phone Number: </strong>{currentUser.value.phone}</p>
+            <p><strong>Email: </strong>{currentUser.value.email}</p>
+            {props.canEdit ? <Link to="/user/edit"><button className="blueBtn"> Edit User</button></Link> : ``}
         </section>
     )
 }

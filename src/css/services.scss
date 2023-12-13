@@ -1,17 +1,96 @@
+@import 'variables';
+
+
+
+.servicesList {
+    container-name: servicesList;
+    container-type: inline-size;
+
+    ul {
+        display: flex;
+        list-style: none;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}
+
+@container servicesList (width < 920px) {
+    .serviceCard {
+        flex: 1 21%;
+    }
+}
+
+@container servicesList (width < 480px) {
+    .serviceCard {
+        flex: 1 46%;
+    }
+}
+
+.serviceCard {
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: $boxshadow;
+    padding: 1rem;
+    min-width: 200px;
+    align-items: center;
+    // justify-content: ;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    flex: 1 16%;
+
+    img {
+        box-shadow: 1px 1px 2px $text-color;
+    }
+
+    div {
+        margin-top: auto;
+        text-align: center;
+        font-size: bold;
+    }
+
+    img {
+        width: 60%;
+        height: auto;
+        position: relative;
+        border-radius: 10px;
+    }
+
+    p {
+        text-align: left;
+    }
+
+}
+
+.categoryBtns {
+    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    button {
+        flex: 1 20%;
+    }
+
+    .active {
+        background-color: $darkLavender;
+        color: $background;
+    }
+
+}
+
 .servicePage{
-
-    padding: 2rem;
-border: 1px solid black;
+    display: flex;
+    flex-wrap: wrap;
+    img{
+        width: 49%;
+        height: auto;
+        border-radius: 4px;
+        box-shadow: $boxshadow;
+    }
+    div{
+        flex: 1 1 50%;
+        padding: 1rem;
+    }
 }
-
-.servicePage img{
-max-width: 300px;
-}
-
-.serviceContent{
-    border: 1px solid #ccc;
-
-}
-
-
 

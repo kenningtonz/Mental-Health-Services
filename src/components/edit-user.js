@@ -11,8 +11,7 @@ const EditUser = () => {
         const lastName = event.target.elements.lastName.value;
         const address = event.target.elements.address.value;
         const phone = event.target.elements.phone.value;
-        const email = event.target.elements.email.value;
-        let user = { firstName: firstName, lastName: lastName, address: address, phone: phone, email: email };
+        let user = { firstName: firstName, lastName: lastName, address: address, phone: phone };
         editUser(user);
     }
     function handleReset(event) {
@@ -31,30 +30,29 @@ const EditUser = () => {
         <section className="card">
             <h2>Edit User</h2>
 
-            <form className="editUser" onSubmit={handleSubmit} onReset={handleReset}>
+            <form className="userInfo" onSubmit={handleSubmit} onReset={handleReset}>
                 <p>
-                    <label htmlFor="first">First Name</label>
+                    <label htmlFor="first">First Name: </label>
                     <input type="text" id="firstName" defaultValue={getDefault(`firstName`)} />
                 </p>
                 <p>
-                    <label htmlFor="last">Last Name</label>
+                    <label htmlFor="last">Last Name: </label>
                     <input type="text" id="lastName" defaultValue={getDefault(`lastName`)} />
                 </p>
                 <p>
-                    <label htmlFor="address">Address</label>
+                    <label htmlFor="address">Address: </label>
                     <input type="text" id="address" defaultValue={getDefault(`address`)} />
                 </p>
                 <p>
-                    <label htmlFor="phone">Phone Number</label>
-                    <input type="text" id="phone" defaultValue={getDefault(`phone`)} />
+                    <label htmlFor="phone">Phone Number: </label>
+                    <input type="tel" id="phone" defaultValue={getDefault(`phone`)} />
                 </p>
                 <p>
-                    <label htmlFor="email">Email</label>
-                    <input type="text" id="email" defaultValue={getDefault(`email`)} />
+                <strong>Email: </strong> {currentUser.value.email}
                 </p>
-                <section className="editUserButtons">
-                    <button type="submit"> Save Changes</button>
-                    <button type="reset"> Discard </button>
+                <section>
+                    <button  className="blueBtn" type="submit"> Save Changes</button>
+                    <button  className="redBtn"type="reset"> Discard </button>
                 </section>
 
             </form>

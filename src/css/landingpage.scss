@@ -2,7 +2,6 @@
 
 .landingPageInfo {
     text-align: center;
-
 }
 
 
@@ -22,6 +21,7 @@
 
     section {
         padding: 1rem;
+        flex: 1;
     }
 
     h1 {
@@ -51,17 +51,6 @@
     .landingLink {
         text-align: center;
         margin: 0.5rem 0;
-    }
-
-    button {
-
-        color: $background;
-        background-color: $warm;
-    }
-
-    button:hover {
-        background-color: $grey;
-        color: $text-color;
     }
 
     img {

@@ -1,9 +1,9 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import image from "../imageholder.png";
 import { signal } from "@preact/signals";
 import logo from '../images/logo.png';
 import { loggedIn } from "../index.js";
 import { useEffect } from "react"
+import { setUser } from "../firebase.js";
 
 export const signInFormData = signal([]);
 
@@ -21,29 +21,32 @@ export const getDefault = (val) => {
 
 const LandingPage = () => {
     const navigate = useNavigate();
-    // useEffect(() => {
-    //     const localStorageInfo = localStorage.getItem('loggedIn')
-    //     console.log(localStorageInfo)
-    //     if (localStorageInfo == `1`) {
-    //         loggedIn.value = true
-    //         navigate('/');
-    //     }
-    // }, [])
+    useEffect(() => {
+        const localStorageInfo = localStorage.getItem('loggedIn')
+        const localStorageID = localStorage.getItem('userID')
+
+        console.log(localStorageID)
+        if (localStorageInfo == `1` && localStorageID != ``) {
+            loggedIn.value = true
+            setUser(localStorageID);
+            navigate('/');
+        }
+    }, [])
 
     return (
         <>
             <main className='landingPage'>
-                <section className="landingPageInfo child">
-                    <img src={logo} alt="" />
+                <section>
+                    <img src={logo} alt="colourfull tree logo" />
                     <h1>Radiant Realms</h1>
                     <p>Discover. Heal. Thrive. Radiantly.</p>
                 </section>
-                <section className="landingPageSign child">
+                <section>
                     <Outlet />
                 </section>
             </main>
             <footer>
-                <p>© 2023</p>
+                <p>Radiant Realms © 2023</p>
             </footer>
         </>
 

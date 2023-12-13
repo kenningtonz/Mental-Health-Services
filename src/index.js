@@ -21,11 +21,6 @@ import { Service, Services } from './pages/services';
 //   return element;
 // }
 
-
-// const AppState = createContext();
-
-
-
 export const loggedIn = signal(false);
 export const filteredServices = signal([]);
 export const title = signal("title");
@@ -57,7 +52,7 @@ export default function App() {
 
           {/* user page */}
           <Route path="user/*" element={<UserProfile />}>
-            <Route path="" element={<UserInfo />} />
+            <Route path="" element={<UserInfo canEdit={true}/>} />
             <Route path="edit" element={<EditUser />} />
           </Route>
 
@@ -75,9 +70,7 @@ export default function App() {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <AppState.Provider value={createAppState()}>
   <App />
-  // </AppState.Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -2,27 +2,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { loggedIn } from '../index.js';
 import { checkUser } from "../firebase.js";
 import { handleFormChange, getDefault } from "../pages/landingPage.js";
+import { currentUser } from "../index.js";
 
 const SignIn = () => {
     const navigate = useNavigate();
-    function home(event) {
-        event.preventDefault();
-        localStorage.setItem("loggedIn", `1`);
-        console.log(localStorage.getItem("loggedIn"));
 
-        loggedIn.value = true;
-        console.log(loggedIn.value);
-        navigate('/');
-    }
-
-    // const users = props.users;
     function checkLogin(event) {
         event.preventDefault();
-        const email = event.target.elements.email.value;
-        const password = event.target.elements.password.value;
-        let user = { email: email, password: password };
+        let user = { email: event.target.elements.email.value, password: event.target.elements.password.value};
         if (checkUser(user)) {
-            home(event);
+            event.preventDefault();
+            localStorage.setItem('loggedIn', `1`);
+            localStorage.setItem("userID", `${currentUser.value.id}`);
+            loggedIn.value = true;
+            navigate('/');
         } else {
             document.getElementById("notice").innerHTML = "Incorrect email or password";
         }
@@ -39,7 +32,7 @@ const SignIn = () => {
                 <input type="text" id="password" required onChange={handleFormChange} defaultValue={getDefault(`password`)} />
                 <Link to="/landing/forgotpass">Forgot Password?</Link>
                 <p id="notice"></p>
-                <button type="submit"> Sign In</button>
+                <button className="blueBtn" type="submit"> Sign In</button>
                 <Link to="/landing/signup" className="landingLink">Create an Account</Link>
             </form>
 

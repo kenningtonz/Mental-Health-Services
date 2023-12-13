@@ -36,7 +36,7 @@ const ForgotPass = () => {
                 <label htmlFor="password">New Password</label>
                 <input type="text" id="password" required/>
                 <p id="notice"></p>
-                <button type="submit"> Change Password</button>
+                <button className="blueBtn" type="submit"> Change Password</button>
                 <Link to="/landing/signin" className="landingLink">Sign In</Link>
                 <Link to="/landing/signup" className="landingLink">Create an Account</Link> 
             </form>
