@@ -3,15 +3,19 @@ import UserInfo from '../components/userInfo';
 import { savePayment, getTotalCost, completePurchase } from '../firebase.js'
 import { currentUser } from "../index.js";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Checkout = () => {
     const navigate = useNavigate();
     function savePay(event) {
         event.preventDefault();
         let userInfo = { card: event.target.elements.card.value, expMonth: event.target.elements.expMonth.value, expYear: event.target.elements.expYear.value, cvv: event.target.elements.cvv.value }
-        console.log(userInfo)
         savePayment(userInfo);
+        document.getElementById("notice").innerHTML = "";
+        document.getElementsByClassName("showComplete")[0].disabled = false;
+
     }
+
 
     function complete(event) {
         event.preventDefault();
@@ -19,11 +23,17 @@ const Checkout = () => {
         navigate('/cart/checkout/success')
     }
 
+    useEffect(() => {
+        if(currentUser.value.payment.card === ``){
+            document.getElementsByClassName("showComplete")[0].disabled = true;
+            document.getElementById("notice").innerHTML = "Please save payment information.";
+        }
+    });
+
     return (
         <main>
             <h1>Checkout</h1>
             <Link to="/cart"><button className="redBtn">Back to Cart</button> </Link>
-     
             <section className="card">
                 <h2>Cost</h2>
                 <p><strong>Total Cost Before Tax: </strong>${getTotalCost()[0]}</p>
@@ -53,12 +63,19 @@ const Checkout = () => {
                         <label htmlFor="cvv">CVV</label>
                         <input type="text" id="cvv" required defaultValue={`${currentUser.value.payment.cvv}`} />
                     </p>
-                    <button type="submit">Save Payment</button>
+                    <button className="blueBtn" type="submit">Save Payment</button>
                 </form>
             </section>
-            <button className="greenBtn" onClick={complete}>Complete Purchase</button>
+         <section id="">
+         <p id="notice"></p>
+         <button type="button" className="greenBtn showComplete" onClick={complete}>Complete Purchase</button>
+         </section>
+        
         </main>
     )
+
 }
+
+
 
 export default Checkout;

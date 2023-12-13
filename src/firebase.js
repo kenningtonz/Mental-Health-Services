@@ -2,9 +2,9 @@
 // import { signal, computed } from "@preact/signals";
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, updateDoc, getDocs, doc, arrayUnion, onSnapshot } from "firebase/firestore";
+import { getFirestore, collection, setDoc, updateDoc, getDocs, getDoc, doc, arrayUnion, onSnapshot, query } from "firebase/firestore";
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { cart, currentUser } from "./index.js";
+import { cart, currentUser, cartLength } from "./index.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -29,26 +29,29 @@ servicesSnapshot.forEach((doc) => {
     // console.log(doc.id, " => ", doc.data().type);
 });
 
-const ordersSnapshot = await getDocs(collection(db, "orders"));
+// const ordersSnapshot = await getDoc(doc(db, "orders", "orders"));
 const orderNumbers = [];
-ordersSnapshot.forEach((doc) => {
-    orderNumbers.push(doc.data().orderNumbers);
+
+const orderQ = query(doc(db, "orders", "orders"));
+const ordersSnapshot = onSnapshot(orderQ,(snap) =>{
+   orderNumbers.length = 0;
+    snap.data().orderNumbers.forEach((order) => {
+        orderNumbers.push(order);
+    })
 });
 
-const usersSnapshot = await getDocs(collection(db, "users"));
 const users = [];
-usersSnapshot.forEach((doc) => {
-    users.push(doc.data());
-    users[users.length - 1].id = doc.id;
-    // console.log(doc.id, " => ", doc.data());
-});
 
-// FUTURE THOUGHTS
-// const orders = [];
-// const ordersSnap = onSnapshot(getDocs((collection(db, "users")),(doc) =>{
-// }));
-// const userQ = query(collection(db, "users"), where("email", "==", userInfo.email));
-// const userQSnap = await getDocs(q)
+const userQ = query(collection(db, "users"));
+const usersSnapshot2 = onSnapshot(userQ,(snap) =>{
+    snap.docChanges().forEach((change) => {
+        if (change.type === "added") {
+            users.push(change.doc.data());
+            users[users.length - 1].id = change.doc.id;
+        }
+    })
+    console.log(users)
+});
 
 export function checkUser(userInfo) {
     let checked = false
@@ -67,18 +70,23 @@ export function checkUser(userInfo) {
     }
 }
 
-export function setUser(id){
-currentUser.value =  users.find(user => user.id === id);
-cart.value = getCart();
+export function setUser(id) {
+    currentUser.value = users.find(user => user.id === id);
+    cartLength.value = currentUser.value.cart.length;
+    cart.value = getCart();
 }
 
 export function checkUserExists(userInfo) {
     let checked = false
+    userInfo.email = userInfo.email.toLowerCase();
     users.forEach((user) => {
-        if (user.email === userInfo.email) {
+        if (user.email == userInfo.email) {
             checked = true;
         }
     })
+    if (currentUser.value.email != undefined && currentUser.value.email === userInfo.email) {
+        checked = false;
+    }
     if (checked) {
         return true;
     } else {
@@ -86,21 +94,35 @@ export function checkUserExists(userInfo) {
     }
 }
 
+export function checkUserPassword(userInfo) {
+    if (currentUser.value.password === userInfo.password) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 export function addUser(userInfo) {
-    addDoc(collection(db, 'users'), {
+    userInfo.email = userInfo.email.toLowerCase();    
+    setDoc(doc(db, 'users', `user${users.length + 1}`), {
         email: userInfo.email,
         password: userInfo.password,
-        firstName: userInfo.firstname,
-        lastName: userInfo.lastname,
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        address: userInfo.address,
+        phone: userInfo.phone,
         cart: [],
         purchases: [],
-        payment: {card: 0, expMonth: 0, expYear: 0, cvv: 0}
+        payment: { card: ``, expMonth: ``, expYear: ``, cvv: `` }
     });
-    console.log("added")
+    console.log("added user")
+return `user${users.length + 1}`
 }
 
 export function changeUser(userInfo) {
     let changed = false
+    userInfo.email = userInfo.email.toLowerCase();
     users.forEach((user) => {
         if (user.email === userInfo.email) {
             updateDoc(doc(db, 'users', `${user.id}`), {
@@ -119,20 +141,24 @@ export function changeUser(userInfo) {
 }
 
 export function editUser(userInfo) {
+    if (userInfo.password === ``) {
+        userInfo.password = currentUser.value.password;
+    }
+    userInfo.email = userInfo.email.toLowerCase();
     updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
-        firstName: userInfo.firstname,
-        lastName: userInfo.lastname,
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
         address: userInfo.address,
         phone: userInfo.phone,
-        // email: userInfo.email
+        email: userInfo.email,
+        password: userInfo.password
     });
-    currentUser.value.firstName = userInfo.firstname;
-    currentUser.value.lastName = userInfo.lastname;
+    currentUser.value.firstName = userInfo.firstName;
+    currentUser.value.lastName = userInfo.lastName;
     currentUser.value.address = userInfo.address;
     currentUser.value.phone = userInfo.phone;
-    // currentUser.value.email = userInfo.email;
-    console.log("edited")
-
+    currentUser.value.email = userInfo.email;
+    currentUser.value.password = userInfo.password;
 }
 
 
@@ -147,8 +173,8 @@ export function addToCart(serviceSlug) {
     } else {
         cart.value[cart.value.indexOf(services[serviceSlug])].amount++;
     }
-    console.log(`currentUser value: ${currentUser.value.cart}`)
-
+    currentUser.value = currentUser.value;
+    cartLength.value++;
 }
 
 export function removeFromCart(serviceSlug) {
@@ -164,6 +190,7 @@ export function removeFromCart(serviceSlug) {
     updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         cart: currentUser.value.cart
     });
+    cartLength.value--;
 }
 
 export function getCart() {
@@ -181,34 +208,34 @@ export function getCart() {
     return cartTemp;
 }
 
-export function savePayment(userInfo){
+export function savePayment(userInfo) {
     updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         payment: userInfo
     });
     currentUser.value.payment = userInfo;
     console.log("saved payment")
 }
-export function getTotalCost(){
+export function getTotalCost() {
     let total = 0;
-    cart.value.forEach((service)=>{
+    cart.value.forEach((service) => {
         total += service.cost * service.amount;
     })
     return [total.toFixed(2), (total * 1.13).toFixed(2)];
 }
 
-export function completePurchase(){
-    
-    let purchase = {order: Math.max(orderNumbers) + 1, date: new Date() ,services: cart.value, totalCost: getTotalCost()[0], user: currentUser.value.id}
+export function completePurchase() {
+    let purchase = { order: orderNumbers.length + 1, date: new Date(Date.now()), services: cart.value, totalCost: getTotalCost()[1], user: currentUser.value.id }
     currentUser.value.purchases.push(purchase);
     updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         purchases: currentUser.value.purchases
     });
     cart.value = [];
     currentUser.value.cart = [];
+    cartLength.value = 0;
     updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
         cart: currentUser.value.cart
     });
-    updateDoc(doc(db, 'users', `orders`), {
+    updateDoc(doc(db, `orders`, 'orders'), {
         orderNumbers: arrayUnion(purchase.order)
     });
 
@@ -216,12 +243,11 @@ export function completePurchase(){
 }
 
 
-export function getPurchase(isLatest){
-
-    if(isLatest){
+export function getPurchase(isLatest) {
+    if (isLatest) {
         return currentUser.value.purchases[currentUser.value.purchases.length - 1];
     }
-    else{
+    else {
         return currentUser.value.purchases;
     }
 }

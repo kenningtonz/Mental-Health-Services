@@ -26,6 +26,7 @@ export const filteredServices = signal([]);
 export const title = signal("title");
 export const cart = signal([]);
 export const currentUser = signal({});
+export const cartLength = signal(0);
 
 export default function App() {
 

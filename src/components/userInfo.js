@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { currentUser } from "../index.js";
-const UserInfo = (props) => {
 
+const UserInfo = (props) => {
     return (
         <section className="card userProfile">
             <h2>User Information</h2>

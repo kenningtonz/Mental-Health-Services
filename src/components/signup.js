@@ -1,6 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
 import { loggedIn } from '../index.js';
-import { addUser, checkUserExists } from '../firebase.js';
+import { addUser, checkUserExists, setUser } from '../firebase.js';
 import { handleFormChange, getDefault } from "../pages/landingPage.js";
 
 const SignUp = () => {
@@ -13,17 +13,16 @@ const SignUp = () => {
     }
     function signUp(event) {
         event.preventDefault();
-        const email = event.target.elements.email.value;
-        const password = event.target.elements.password.value;
-        const f = event.target.elements.firstname.value;
-        const l = event.target.elements.lastname.value;
-        let user = { email: email, password: password, firstname: f, lastname: l };
+        let user = { email: event.target.elements.email.value, password: event.target.elements.password.value, firstName: event.target.elements.firstName.value, lastName: event.target.elements.lastName.value, address: event.target.elements.address.value, phone: event.target.elements.phone.value };
         if (checkUserExists(user)) {
             document.getElementById("notice").innerHTML = "Email already in use.";
         } else {
-            addUser(user);
-            home(event);
-        }
+            let id = addUser(user);
+            setTimeout(() =>{
+                home(event);
+                setUser(id);}
+                , 500);
+                    }
     }
 
     return (
@@ -34,10 +33,14 @@ const SignUp = () => {
                 <input type="email" id="email" required onChange={handleFormChange} defaultValue={getDefault(`email`)} />
                 <label htmlFor="password">Password</label>
                 <input type="password" id="password" required onChange={handleFormChange} defaultValue={getDefault(`password`)} />
-                <label htmlFor="firstname">First Name</label>
-                <input type="text" id="firstname" required onChange={handleFormChange} />
-                <label htmlFor="lastname">Last Name</label>
-                <input type="text" id="lastname" required onChange={handleFormChange} />
+                <label htmlFor="firstName">First Name</label>
+                <input type="text" id="firstName" required onChange={handleFormChange} />
+                <label htmlFor="lastName">Last Name</label>
+                <input type="text" id="lastName" required onChange={handleFormChange} />
+                <label htmlFor="address">Address</label>
+                <input type="text" id="address" required onChange={handleFormChange} />
+                <label htmlFor="phone">Phone</label>
+                <input type="text" id="phone" required onChange={handleFormChange} />
                 <p id="notice"></p>
                 <button className="blueBtn" type="submit"> Create an Account</button>
                 <Link to="/landing/signin" className="landingLink">Sign In</Link>

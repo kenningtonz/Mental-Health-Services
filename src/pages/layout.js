@@ -1,23 +1,12 @@
 import { Outlet, Link, Navigate } from "react-router-dom";
-import { currentUser, loggedIn } from "../index.js";
+import {loggedIn, cartLength, currentUser } from "../index.js";
 import logo from '../images/logo.png';
 
 const Layout = () => {
-    function getCartNotice() {
-        let cartNotice = document.getElementById('cartNotice');
-        if (Object.keys(currentUser.value).length == 0 ) {
-            if(currentUser.value.cart.length == 0){
-                cartNotice.innerHTML = "";
-            }else {
-                cartNotice.innerHTML= currentUser.value.cart.length;
-            }
-        }else {  cartNotice.innerHTML = "";}
-    }
-    console.log(currentUser)
-    // getCartNotice();
-    
+
     function signOut() {
         localStorage.setItem('isLoggedIn', '0')
+        currentUser.value = {}
         localStorage.setItem('userID', '')
         loggedIn.value = false;
     }
@@ -36,7 +25,7 @@ const Layout = () => {
                                 <Link to="/services"><i className="fa-solid fa-list-ul"></i>Services</Link>
                             </li>
                             <li>
-                                <Link to="/cart"><i className="fa-solid fa-cart-shopping"></i>Cart<i id="cartNotice"> </i></Link>
+                                <Link to="/cart"><i className="fa-solid fa-cart-shopping"></i>Cart<i id="cartNotice">{cartLength.value == 0 ? '': cartLength.value}</i></Link>
                             </li>
                             <li>
                                 <Link to="/user"><i className="fa-solid fa-user"></i>User</Link>

@@ -38,14 +38,12 @@
     flex-direction: column;
     gap: 0.8rem;
     flex: 1 16%;
+    text-align: center;
 
-    img {
-        box-shadow: 1px 1px 2px $text-color;
-    }
+
 
     div {
         margin-top: auto;
-        text-align: center;
         font-size: bold;
     }
 
@@ -83,14 +81,22 @@
     display: flex;
     flex-wrap: wrap;
     img{
-        width: 49%;
+        flex: 1 1 48%;
+        width: 45%;
         height: auto;
+        margin: 10px;
         border-radius: 4px;
         box-shadow: $boxshadow;
     }
-    div{
-        flex: 1 1 50%;
-        padding: 1rem;
+    h2{
+        text-align: left;
+    }
+div{
+    padding: 10px;
+    flex: 1 1 48%;
+}
+    ul{
+        margin-left: 1rem;
     }
 }
 

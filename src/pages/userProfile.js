@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 import { getPurchase } from "../firebase";
 
+
 const UserProfile = () => {
     let purchaseHistory = getPurchase(false);
-    console.log(purchaseHistory)
     return (
         <main className="containerCol">
             <h1>User Profile</h1>
@@ -22,33 +22,33 @@ const UserProfile = () => {
 }
 
 const PurchaseHistory = (props) => {
-    if (props.purchaseHistory.length == 0) {
-        return (<p>No Purchase History</p>)
+    if (props.purchaseHistory.length == 0 || props.purchaseHistory == undefined) {
+        return (<p className="center">No Purchase History</p>)
     } else {
-        return (<table>
+        return (<table className="purchase">
             <thead>
                 <tr>
                     <th>Order Number</th>
                     <th>Services(s)</th>
                     <th>Date</th>
-                    <th>Price</th>
+                    <th>Total Cost</th>
                 </tr>
             </thead>
             <tbody>
                 {props.purchaseHistory.map((purchase) => (
                     <tr key={props.purchaseHistory.indexOf(purchase)}>
-                        <td>{purchase.orderNumber}</td>
+                        <td>{purchase.order}</td>
                         <td>
                             <ul>
                                 {purchase.services.map((service) => (
                                     <li key={purchase.services.indexOf(service)}>
-                                        <p>{service.name}</p>
+                                        <p>{service.name} <strong># of Sessions: </strong>{service.amount}</p>
                                     </li>
                                 ))}
                             </ul>
                         </td>
-                        <td>{new Date(purchase.date.seconds * 1000).toLocaleString('en-GB', { timeZone: 'UTC' })}</td>
-                        <td>${purchase.totalCost[1]}</td>
+                        <td>{purchase.date.seconds != undefined ? new Date(purchase.date.seconds * 1000).toLocaleDateString('en-CA') : purchase.date.toLocaleDateString('en-CA')}</td>
+                        <td>${purchase.totalCost}</td>
                     </tr>
                 ))}
             </tbody>

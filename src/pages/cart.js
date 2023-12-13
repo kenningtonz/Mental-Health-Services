@@ -8,7 +8,7 @@ const Cart = () => {
             <h1>Your Cart</h1>
             <section className="card">
             <ServicesListCart />
-                {cart.value.length == 0 ? <p>Cart is empty</p> : <Link to="/cart/checkout" ><button className="greenBtn"> Checkout</button></Link>}
+                {cart.value.length == 0 ? <p className="center">Cart is empty</p> : <Link to="/cart/checkout" ><button className="greenBtn"> Checkout</button></Link>}
             </section>
 
         </main>

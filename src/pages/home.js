@@ -1,6 +1,7 @@
 import { ServicesList } from "./services";
 import { Link } from "react-router-dom";
 import logo from '../images/logo.png';
+import { currentUser } from "../index.js";
 
 import hero from '../images/hero.jpg';
 
@@ -11,7 +12,7 @@ const Home = () => {
 
             <section className="hero">
                 <img src={hero} alt="" />
-                <h1>Welcome to Radiant Realms</h1>
+                <h1>Welcome to Radiant Realms {currentUser.value.firstName}!</h1>
 
             </section>
 

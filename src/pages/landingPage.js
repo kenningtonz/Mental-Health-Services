@@ -27,16 +27,19 @@ const LandingPage = () => {
 
         console.log(localStorageID)
         if (localStorageInfo == `1` && localStorageID != ``) {
-            loggedIn.value = true
-            setUser(localStorageID);
-            navigate('/');
+            loggedIn.value = true;
+            setTimeout(() => {
+                setUser(localStorageID);
+                navigate('/');
+            }, 500);
+        
         }
     }, [])
 
     return (
         <>
             <main className='landingPage'>
-                <section>
+                <section id="landingLogo">
                     <img src={logo} alt="colourfull tree logo" />
                     <h1>Radiant Realms</h1>
                     <p>Discover. Heal. Thrive. Radiantly.</p>
