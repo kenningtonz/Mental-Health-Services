@@ -1,17 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { loggedIn } from '../index.js';
-import { checkUser } from "../firebase.js";
+// import { checkUser } from "../firebase.js";
 import {handleFormChange, getDefault} from "../pages/landingPage.js";
+import { signIn } from "../functions/userAuth.js";
 
 const SignIn = () => {
     const navigate = useNavigate();
     function home(event) {
         event.preventDefault();
-        localStorage.setItem("loggedIn", `1`);
-        console.log(localStorage.getItem("loggedIn"));
-
-        loggedIn.value = true;
-        console.log(loggedIn.value);
         navigate('/');
     }
 
@@ -21,11 +17,17 @@ const SignIn = () => {
         const email = event.target.elements.email.value;
         const password = event.target.elements.password.value;
         let user = { email: email, password: password };
-        if(checkUser(user)){
-            home(event);
-        }else{
-            document.getElementById("notice").innerHTML = "Incorrect email or password";
+        const  getMessage = async (user) => {
+            let message = await signIn(user);
+            console.log(message);
+            if (message.error) {
+                document.getElementById("notice").innerHTML = message.message;
+            }
+            else {
+                home(event);
+            }
         }
+        getMessage(user);
     }
 
     return (

@@ -1,16 +1,22 @@
-import { React } from 'react';
+import { React, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { signal } from "@preact/signals-react";
 import { BrowserRouter, Route, Routes, Navigate, useRoutes } from 'react-router-dom';
+import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
 
-import {UserInfo, ForgotPass, SignIn, SignUp, EditUser} from './components';
-import {Cart, Checkout, PurchaseComplete, LandingPage, UserProfile, Home} from './pages';
+import { UserInfo, ForgotPass, SignIn, SignUp, EditUser, Loading } from './components';
+import { Cart, Checkout, PurchaseComplete, LandingPage, UserProfile, Home } from './pages';
+
+import { checkIsSignedIn } from './functions/userAuth';
 
 import './css/index.scss';
 import './css/landingpage.scss';
 import './css/services.scss';
-import Layout from './pages/layout';
+import './css/layout.scss'
+import './theme/theme.scss';
+import Layout from './layout';
 import { Service, Services } from './pages/services';
+
 
 // function Routes(){
 //   const element = useRoutes([
@@ -19,22 +25,23 @@ import { Service, Services } from './pages/services';
 //   return element;
 // }
 
+export const loggedIn = signal(checkIsSignedIn());
 
-// const AppState = createContext();
-
-
-
-export const loggedIn = signal(false);
-export const filteredServices = signal([]);
-export const title = signal("title");
-export const cart = signal([]);
+// export const title = signal("title");
+// export const cart = signal([]);
 export const currentUser = signal({});
+// export const cartLength = signal(0);
+const loading = signal(true);
 
 export default function App() {
-
-  console.log(loggedIn.value)
-
-
+  // loggedIn.value = checkIsSignedIn();
+  // checkIsSignedIn();
+  useEffect(() => {
+    setTimeout(() => {loading.value = false}, 2000)
+  }, [])
+  if (loading.value) {
+    return <Loading />
+  }
   return (
     <BrowserRouter>
       <Routes>
@@ -43,7 +50,7 @@ export default function App() {
         <Route path="/landing/" element={<LandingPage />} >
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
-          <Route path="forgotpass" element={<ForgotPass />} />
+          {/* <Route path="forgotpass" element={<ForgotPass />} /> */}
         </Route>
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -53,18 +60,16 @@ export default function App() {
           <Route path="cart/checkout" element={<Checkout />} />
           <Route path="cart/checkout/success" element={<PurchaseComplete />} />
 
-
-
           {/* user page */}
           <Route path="user/*" element={<UserProfile />}>
-            <Route path="" element={<UserInfo />} />
+            <Route path="" element={<UserInfo canEdit={true} />} />
             <Route path="edit" element={<EditUser />} />
           </Route>
 
           <Route path="/services" element={<Services />}>
             {/* https://blog.logrocket.com/react-router-v6-guide/#building-functional-components */}
           </Route>
-            <Route path="/services/:slug" element={<Service/>} />
+          <Route path="/services/:slug" element={<Service />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
@@ -75,9 +80,7 @@ export default function App() {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <AppState.Provider value={createAppState()}>
   <App />
-  // </AppState.Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,17 +1,57 @@
-import { Link } from "react-router-dom";
 import { currentUser } from "../index.js";
-const UserInfo = () => {
-
+const UserInfo = ({showPayment}) => {
     return (
         <section className="card">
-            <h2>User Information</h2>
-
-            <p>First Name: {currentUser.value.firstName}</p>
-            <p>Last Name: {currentUser.value.lastName}</p>
-            <p>Address: {currentUser.value.address}</p>
-            <p>Phone Number: {currentUser.value.phone}</p>
-            <p>Email: {currentUser.value.email}</p>
-            <Link to="/user/edit">Edit User</Link>
+            <h2>Contact Information</h2>
+            <section className="flex">
+                <span className="child-50">
+                    <strong >First Name</strong>
+                    <p>{currentUser.value.firstName}</p>
+                </span>
+                <span className="child-50">
+                    <strong >Last Name</strong>
+                    <p>{currentUser.value.lastName}</p>
+                </span>
+                <span className="child-50">
+                    <strong>Email</strong>
+                    <p >{currentUser.value.email}</p>
+                </span>
+                {currentUser.value.phone == undefined ? "" : (<span className="child-50">
+                    <strong >Phone Number</strong><p>{currentUser.value.phone}</p>   </span>)}
+            </section>
+            {currentUser.value.address != undefined ? (
+                <section className="flex">
+                    <h2>Address</h2>
+                    <span className="child-50">
+                        <strong >Address</strong>
+                        <p >{currentUser.value.address.streetAddress}</p>
+                        <strong>City</strong>
+                        <p>{currentUser.value.address.city}</p>
+                        <strong >Province</strong>
+                        <p  >{currentUser.value.address.province}</p>
+                        <strong  >Postal Code</strong>
+                        <p  >{currentUser.value.address.postal}</p>
+                    </span>    </section>) : ""}
+            {showPayment ? (
+                <section className="flex">
+                    <h2>Payment</h2>
+                    <span className="child-50">
+                        <strong>Name on Card</strong>
+                        <p >{currentUser.value.payment.name}</p>
+                    </span>
+                    <span className="child-50">
+                        <strong>Card Number</strong>
+                        <p >{currentUser.value.payment.cardNumber}</p>
+                    </span>
+                    <span className="child-50">
+                        <strong>Exp</strong>
+                        <p >{currentUser.value.payment.expDate}</p>
+                    </span>
+                    <span className="child-50">
+                        <strong>CVV</strong>
+                        <p >{currentUser.value.payment.cvv}</p>
+                    </span>
+                </section>) : ""}
         </section>
     )
 }

@@ -1,17 +1,151 @@
+@import 'variables';
+
+.filters{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    .p-listbox	{
+        border-radius: 10px;
+        box-shadow: $boxshadow;
+        padding: 0.5rem;
+        background-color: $blue;
+    }
+    .p-highlight, .p-listbox-item:hover	{
+        color: white;
+        background-color: $darkBlue;
+    }
+    .p-listbox-item	{
+        border-radius: 10px;
+        padding: 0.2rem;
+        margin: 0.2rem;
+    
+    }
+}
+
+.servicesList {
+    container-name: servicesList;
+    container-type: inline-size;
+flex: 1 70%;
+    ul {
+        display: flex;
+        list-style: none;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}
+
+@container servicesList (width < 920px) {
+    .serviceCard {
+        flex: 1 21%;
+    }
+}
+
+@container servicesList (width < 480px) {
+    .serviceCard {
+        flex: 1 46%;
+    }
+
+}
+
+.serviceCard {
+    transition: all .2s ease-in-out;
+    &:hover{
+        scale: 1.03;      
+      }
+    a{
+
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+        text-decoration: none;
+        align-items: center;
+        padding: 1rem;
+
+    }
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: $boxshadow;
+  
+    min-width: 200px;
+ 
+    // justify-content: ;
+ 
+    flex: 1 16%;
+  
+
+    div {
+        margin-top: auto;
+        font-size: bold;
+    }
+
+    img {
+        width: 60%;
+        height: auto;
+        position: relative;
+        border-radius: 10px;
+    }
+
+    p {
+        text-align: left;
+    }
+}
+
+
 .servicePage{
 
-    padding: 2rem;
-border: 1px solid black;
+    display: flex;
+    flex-wrap: wrap;
+    img{
+        flex: 1 1 48%;
+        width: 45%;
+        height: auto;
+        margin: 10px;
+        border-radius: 4px;
+        box-shadow: $boxshadow;
+    }
+    h2{
+        text-align: left;
+    }
+div{
+    padding: 10px;
+    flex: 1 1 48%;
+}
+    ul{
+        margin-left: 1rem;
+    }
 }
 
-.servicePage img{
-max-width: 300px;
+.servicesPage{
+    container-name: servicesPage;
+    container-type: inline-size;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+h1{
+    flex-basis: 100%;
+}
 }
 
-.serviceContent{
-    border: 1px solid #ccc;
-
+.filters{
+    button{
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
 }
 
-
-
+@container servicesPage (width < 450px) {
+    .filters {
+        flex: 1 0 100%;
+    }
+    .servicesPage{
+        flex-direction: column;
+    }
+}
+@container servicesPage (width > 450px) {
+    .filters {
+        flex: 0 1 25%;
+        max-width: 200px;
+    }
+}
