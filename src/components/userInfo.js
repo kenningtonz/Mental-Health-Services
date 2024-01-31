@@ -1,5 +1,5 @@
 import { currentUser } from "../index.js";
-const UserInfo = ({showPayment}) => {
+const UserInfo = ({ showPayment }) => {
     return (
         <section className="card">
             <h2>Contact Information</h2>
@@ -21,20 +21,27 @@ const UserInfo = ({showPayment}) => {
             </section>
             {currentUser.value.address != undefined ? (
                 <section className="flex">
-                    <h2>Address</h2>
-                    <span className="child-50">
+                    <h2 className="child-100" >Address</h2>
+                    <span className="child-100">
                         <strong >Address</strong>
                         <p >{currentUser.value.address.streetAddress}</p>
+                        </span>
+                        <span className="child-50">
                         <strong>City</strong>
                         <p>{currentUser.value.address.city}</p>
+                        </span>
+                        <span className="child-25">
                         <strong >Province</strong>
                         <p  >{currentUser.value.address.province}</p>
+                        </span>
+                        <span className="child-25">
                         <strong  >Postal Code</strong>
                         <p  >{currentUser.value.address.postal}</p>
+                        
                     </span>    </section>) : ""}
-            {showPayment ? (
+            {showPayment && currentUser.value.payment != undefined ? (
                 <section className="flex">
-                    <h2>Payment</h2>
+                    <h2 className="child-100">Payment</h2>
                     <span className="child-50">
                         <strong>Name on Card</strong>
                         <p >{currentUser.value.payment.name}</p>

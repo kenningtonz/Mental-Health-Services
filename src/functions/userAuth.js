@@ -179,11 +179,7 @@ function errorChecker(error) {
 
 // }
 
-export function updateUserInfo(userInfo) {
-    // if (userInfo.password === ``) {
-    //     userInfo.password = currentUser.value.password;
-    // }
-    userInfo.email = userInfo.email.toLowerCase();
+function changeEmail(userInfo) {
     if (userInfo.email != currentUser.value.email) {
         updateEmail(auth.currentUser, userInfo.email).then(() => {
             console.log("email updated")
@@ -191,6 +187,9 @@ export function updateUserInfo(userInfo) {
             console.log(error)
         });
     }
+}
+
+function changePassword(userInfo) {
     if (userInfo.password != currentUser.value.password) {
         updatePassword(auth.currentUser, userInfo.password).then(() => {
             console.log("password updated")
@@ -199,24 +198,24 @@ export function updateUserInfo(userInfo) {
             console.log(error)
         });
     }
-    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
+}
+
+export function updateUserInfo(userInfo) {
+    console.log(userInfo);
+    console.log(currentUser.value.id);
+    updateDoc(doc(db, 'users', `${currentUser.value.userID}`), {
         firstName: userInfo.firstName,
         lastName: userInfo.lastName,
         address: userInfo.address,
-        phone: userInfo.phone,
-        email: userInfo.email,
-        password: userInfo.password
+        phone: userInfo.phone
     });
     currentUser.value.firstName = userInfo.firstName;
     currentUser.value.lastName = userInfo.lastName;
     currentUser.value.address = userInfo.address;
-    currentUser.value.phone = userInfo.phone;
-    currentUser.value.email = userInfo.email;
-    currentUser.value.password = userInfo.password;
-    
+    currentUser.value.phone = userInfo.phone;    
 }
 export function savePayment(userInfo) {
-    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
+    updateDoc(doc(db, 'users', `${currentUser.value.userID}`), {
         payment: userInfo
     });
     currentUser.value.payment = userInfo;
@@ -226,14 +225,14 @@ export function savePayment(userInfo) {
 
 export function saveUserCart(cart) {
     currentUser.value.cart = cart;
-    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
+    updateDoc(doc(db, 'users', `${currentUser.value.userID}`), {
         cart: currentUser.value.cart
     });
 }
 
 export function saveOrder(cart) {
     currentUser.value.cart = cart;
-    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
+    updateDoc(doc(db, 'users', `${currentUser.value.userID}`), {
         cart: currentUser.value.cart
     });
 }

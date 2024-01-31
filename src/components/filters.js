@@ -2,6 +2,8 @@ import { ListBox } from 'primereact/listbox';
 import { signal } from "@preact/signals-react";
 import { services } from '../functions/service.js';
 
+import { Dropdown } from 'primereact/dropdown';
+
 export const filteredServices = signal([]);
 const typeFilter = signal("all");
 const costFilter = signal(0);
@@ -21,8 +23,7 @@ const filterCosts = [
     { label: 'Under $50', value: 50 },
     { label: '$50 - $100', value: 100 },
     { label: '$100 - $150', value: 150 },
-    { label: '$150 - $200', value: 175 },
-    { label: '$200+', value: 200 }
+    { label: '$150 - $200', value: 175 }
 ]
 
 const filterConditions = [
@@ -32,13 +33,6 @@ const filterConditions = [
     { label: 'PTSD', value: 'PTSD' },
     { label: 'Stress-related disorders', value: 'Stress-related disorders' },
     { label: 'Trauma-related Disorders', value: 'Trauma-related Disorders' },
-    { label: 'Low Self-Esteem', value: 'Low Self-Esteem' },
-    { label: 'Substance Abuse Disorders', value: 'Substance Abuse Disorders' },
-    { label: 'Behavioral Addictions', value: 'Behavioral Addictions' },
-    { label: 'Impulse Control Disorders', value: 'Impulse Control Disorders' },
-    { label: 'OCS', value: 'OCS' },
-    { label: 'Insomnia', value: 'Insomnia' },
-    { label: 'Eating Disorders', value: 'Eating Disorders' }
 ]
 
 function setCostFilter(value) {
@@ -90,19 +84,24 @@ export function resetFilters() {
 
 export const Filters = () => {
     return (<section className="filters">
-        <h2>Filters</h2>
-        <button onClick={resetFilters} className="customButton width-100 blueBtn">Reset Filters</button>
-        <section className="categoryBtns">
+        {/* <h2>Filters</h2> */}
+        <button onClick={resetFilters} className="customButton blueBtn">Reset Filters</button>
+        <section>
             <h3 className="textCenter">Categories</h3>
-            <ListBox value={typeFilter.value} dataKey="" onChange={(e) => setTypesFilter(e.value)} options={filterTypes} className="" />
+            <Dropdown value={typeFilter.value} onChange={(e) => setTypesFilter(e.value)}  options={filterTypes}/>
+            {/* <ListBox value={typeFilter.value} dataKey="" onChange={(e) => setTypesFilter(e.value)} options={filterTypes} className="" /> */}
         </section>
         <section className="">
         <h3 className="textCenter">Conditions</h3>
-            <ListBox value={conditionsFilter.value} onChange={(e) => setConditionsFilter(e.value)} options={filterConditions} className="" />
+        <Dropdown value={conditionsFilter.value} onChange={(e) => setConditionsFilter(e.value)}  options={filterConditions}/>
+
+            {/* <ListBox value={conditionsFilter.value} onChange={(e) => setConditionsFilter(e.value)} options={filterConditions} className="" /> */}
         </section>
         <section className="">
         <h3 className="textCenter">Cost</h3>
-        <ListBox value={costFilter.value} onChange={(e) => setCostFilter(e.value)} options={filterCosts} className="" />
+        <Dropdown value={costFilter.value} onChange={(e) => setCostFilter(e.value)}  options={filterCosts}/>
+
+        {/* <ListBox value={costFilter.value} onChange={(e) => setCostFilter(e.value)} options={filterCosts} className="" /> */}
 
         </section>
 

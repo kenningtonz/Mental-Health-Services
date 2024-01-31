@@ -1,14 +1,18 @@
 import { Link, Outlet } from "react-router-dom";
+import hero from '../images/image2.jpg';
 
 const UserProfile = () => {
     return (
         <main className="containerCol">
-            <h1>User Profile</h1>
+            <section className="heroSection">
+                <img src={hero} alt="" />
+                <div className="heroText">
+                <h1>User Profile</h1>
+                </div>
+            </section>
 
             <section className="child">
                 <Outlet />
-
-                
             </section>
 
             <section className="child">

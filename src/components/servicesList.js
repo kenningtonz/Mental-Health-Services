@@ -12,20 +12,20 @@ const ServicesList = () => {
     else {
         // return (<DataView value={filteredServices.value} listTemplate={listTemplate} />)
         return (
-        <ul>
-            {filteredServices.value.map((service) => (
-                <li className="serviceCard" key={service.id}>
-                    <Link to={{ pathname: `/services/${service.id}` }}>
-                    <img src={images[service.imageName]} alt={service.name} />
-                        <h3>{service.name}</h3>
-                  
-                    {/* <p>{filtersObject.typeLabels[filtersObject.types.indexOf(service.type)]}</p> */}
-                    <p className="desc">{service.oneLine}</p>
-                        <p>${service.cost} per Session</p>
-                    </Link>
-                </li>
-            ))}
-        </ul>)
+            <ul>
+                {filteredServices.value.map((service) => (
+                    <li className="serviceCard" key={service.id}>
+                        <Link to={{ pathname: `/services/${service.id}` }}>
+                            <img src={images[service.imageName]} alt={service.name} />
+                            <div>
+                                <h3>{service.name}</h3>
+                                <p className="desc">{service.oneLine}</p>
+                                <p>${service.cost} per Session</p>
+                            </div>
+                        </Link>
+                    </li>
+                ))}
+            </ul>)
     }
 }
 

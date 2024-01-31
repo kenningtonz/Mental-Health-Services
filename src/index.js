@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes, Navigate, useRoutes } from 'react-router-
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
 
 import { UserInfo, ForgotPass, SignIn, SignUp, EditUser, Loading } from './components';
-import { Cart, Checkout, PurchaseComplete, LandingPage, UserProfile, Home } from './pages';
+import { Cart, Checkout, PurchaseComplete, LandingPage, UserProfile, Home, Service,  Services} from './pages';
 
 import { checkIsSignedIn } from './functions/userAuth';
 
@@ -15,7 +15,6 @@ import './css/services.scss';
 import './css/layout.scss'
 import './theme/theme.scss';
 import Layout from './layout';
-import { Service, Services } from './pages/services';
 
 
 // function Routes(){

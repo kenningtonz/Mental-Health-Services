@@ -1,6 +1,7 @@
 {
   "name": "mental-health-services",
   "version": "0.1.0",
+  "homepage": "https://radiantrealms.kennedyadams.ca",
   "private": true,
   "dependencies": {
     "@preact/signals": "^1.2.2",

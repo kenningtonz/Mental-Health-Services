@@ -1,32 +1,73 @@
 @import 'variables';
 
-.filters{
+.filters {
+    padding-left: 1rem;
     display: flex;
-    flex-direction: column;
     gap: 0.5rem;
-    margin: 1rem 0;
-    .p-listbox	{
-        border-radius: 10px;
-        box-shadow: $boxshadow;
-        padding: 0.5rem;
-        background-color: $blue;
+    button {
+        width: 100%;
     }
-    .p-highlight, .p-listbox-item:hover	{
-        color: white;
-        background-color: $darkBlue;
-    }
-    .p-listbox-item	{
+    .p-dropdown {
+        width: 100%;
         border-radius: 10px;
         padding: 0.2rem;
-        margin: 0.2rem;
-    
+    }
+
+    h3 {
+        font-weight: 600;
+    }
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 0.15rem $confirm;
+}
+
+li.p-dropdown-item.p-highlight {
+    background-color: $confirm;
+}
+
+.p-dropdown-item {
+    border-radius: 4px;
+    padding: 0.2rem;
+    margin: 0.2rem;
+
+}
+
+.heroSection {
+    position: relative;
+    width: 100%;
+
+    img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        text-align: left;
+        filter: blur(1px);
+    }
+
+    .heroText {
+        position: absolute;
+        top: 40%;
+        left: 10%;
+        color: white;
+        text-shadow: 2px 2px 4px black;
+    }
+
+    h1 {
+        font-size: 4rem;
+        text-align: left;
+        font-family: 'Caveat', cursive;
     }
 }
 
 .servicesList {
     container-name: servicesList;
     container-type: inline-size;
-flex: 1 70%;
+    flex: 1 70%;
+    padding-right: 1rem;
+
     ul {
         display: flex;
         list-style: none;
@@ -35,53 +76,56 @@ flex: 1 70%;
     }
 }
 
-@container servicesList (width < 920px) {
-    .serviceCard {
-        flex: 1 21%;
+@container servicesList (width < 300px) {
+    .serviceCard a {
+        flex-direction: column;
     }
 }
 
-@container servicesList (width < 480px) {
-    .serviceCard {
-        flex: 1 46%;
+@container servicesList (width > 300px) {
+    .serviceCard a {
+        flex-direction: row;
     }
-
 }
 
 .serviceCard {
     transition: all .2s ease-in-out;
-    &:hover{
-        scale: 1.03;      
-      }
-    a{
 
+    &:hover {
+        scale: 1.03;
+    }
+
+    a {
         display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
-        text-align: center;
+
+        gap: 1rem;
+
         text-decoration: none;
         align-items: center;
         padding: 1rem;
 
     }
+
+    h3 {
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
     border-radius: 10px;
     background-color: white;
     box-shadow: $boxshadow;
-  
-    min-width: 200px;
- 
-    // justify-content: ;
- 
-    flex: 1 16%;
-  
 
     div {
-        margin-top: auto;
-        font-size: bold;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
     }
 
+    width: 100%;
+
+
     img {
-        width: 60%;
+        width: 30%;
         height: auto;
         position: relative;
         border-radius: 10px;
@@ -93,11 +137,12 @@ flex: 1 70%;
 }
 
 
-.servicePage{
+.servicePage {
 
     display: flex;
     flex-wrap: wrap;
-    img{
+
+    img {
         flex: 1 1 48%;
         width: 45%;
         height: auto;
@@ -105,47 +150,64 @@ flex: 1 70%;
         border-radius: 4px;
         box-shadow: $boxshadow;
     }
-    h2{
+
+    h2 {
         text-align: left;
     }
-div{
-    padding: 10px;
-    flex: 1 1 48%;
-}
-    ul{
+
+    div {
+        padding: 10px;
+        flex: 1 1 48%;
+    }
+
+    ul {
         margin-left: 1rem;
     }
 }
 
-.servicesPage{
+.servicesPage {
     container-name: servicesPage;
     container-type: inline-size;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-h1{
-    flex-basis: 100%;
-}
+
 }
 
-.filters{
-    button{
-        padding-top: 4px;
-        padding-bottom: 4px;
-    }
-}
 
-@container servicesPage (width < 450px) {
+
+@container servicesPage (width < 500px) {
     .filters {
-        flex: 1 0 100%;
+        flex: 1 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 0 1rem;
+
+        section {
+            flex: 1 1 30%;
+
+        }
     }
-    .servicesPage{
+
+    .servicesList {
+        padding: 0 1rem;
+    }
+
+    .servicesPage {
         flex-direction: column;
     }
 }
-@container servicesPage (width > 450px) {
+
+@container servicesPage (width > 500px) {
     .filters {
         flex: 0 1 25%;
         max-width: 200px;
+        flex-direction: column;
+
+    }
+
+    .servicesPage {
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 }

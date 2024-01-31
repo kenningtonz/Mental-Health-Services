@@ -2,29 +2,31 @@ import { signal } from "@preact/signals-react";
 import { reservations } from "../functions/orders";
 import { Calendar } from 'primereact/calendar';
 import { ListBox } from 'primereact/listbox';
-import { Dialog } from 'primereact/dialog';
+
 
 import { addToCart } from "../functions/cart";
 import { services } from "../functions/service";
 import { currentUser } from "../index";
+import { getTimeFormat } from "../functions/general";
 
+const datePicked = signal(0);
+const timePicked = signal(0);
 
-const datePicked = signal(new Date());
-const timePicked = signal(8);
 
 
 const bookingService = signal({});
-const bookingOpen = signal(false);
+export const bookingOpen = signal(false);
 
 export function openBooking(e) {
+    datePicked.value = 0;
+    timePicked.value = 0;
     bookingService.value = services[e.target.value];
     bookingOpen.value = true;
     console.log(bookingService.value)
 }
 
-function closeBooking() {
+export function closeBooking() {
     bookingOpen.value = false;
-
 }
 
 function getDisabledTimes() {
@@ -34,7 +36,7 @@ function getDisabledTimes() {
         let added = false;
         if (disabledTimes.length > 0) {
             for (const date in disabledTimes) {
-                if (disabledTimes[date].date.getTime() == serviceOrders[order].date.getTime()) {
+                if (disabledTimes[date].date == serviceOrders[order]) {
                     disabledTimes[date].time.push(serviceOrders[order].time);
                     added = true;
                 }
@@ -62,79 +64,66 @@ function getAvailableTimes() {
     let availableTimes = [8, 9, 10, 11, 12, 13, 14, 15];
     let disabledTimes = getDisabledTimes();
     for (const date in disabledTimes) {
-        if (disabledTimes[date].date == datePicked.value) {
+        if (disabledTimes[date].date == datePicked.value.toDateString()) {
             availableTimes = availableTimes.filter((time) => !disabledTimes[date].time.includes(time));
         }
     }
-
     for (const time in availableTimes) {
         availableTimes[time] = { label: getTimeFormat(availableTimes[time]), value: availableTimes[time] };
     }
-    // timePicked.value = availableTimes[0].value;
     return availableTimes;
 }
 
-export function getTimeFormat(time) {
-    if (time < 12) {
-        return time + " AM"
-    } else if (time == 12) {
-        return time + " PM"
-    }
-    else {
-        return (time - 12) + " PM"
-    }
-}
+
 
 export const Booking = () => {
-
     function checkTimeConflicts(date, time) {
         let conflict = false;
         if (currentUser.value.cart !== undefined) {
             let cartItems = currentUser.value.cart.cartItems;
             for (const item in cartItems) {
-                console.log(cartItems[item].date, date, cartItems[item].time, time)
-                if (cartItems[item].date == date && cartItems[item].time == time) {
-                    conflict= true;
+                console.log(cartItems[item].date, date.toDateString(), cartItems[item].time, time)
+                if (cartItems[item].date == date.toDateString() && cartItems[item].time == time) {
+                    conflict = true;
                 }
             }
         }
-        if(conflict){
+        if (conflict) {
             document.getElementById("notice").innerHTML = "You already have a booking for this time";
-        }else{
-            addToCart(bookingService.value.id, datePicked.value, timePicked.value, bookingService.value.cost, bookingService.value.name); 
+        } else {
+            addToCart(bookingService.value.id, datePicked.value, timePicked.value, bookingService.value.cost, bookingService.value.name);
             closeBooking();
         }
     }
     return (
-        <Dialog visible={bookingOpen.value} onHide={closeBooking} resizable={false} draggable={false}>
-            <div className="datePicker">
-                <h2>Booking for {bookingService.value.name}</h2>
-                <div>
-                    <strong>Choose a Date</strong>
-                    <Calendar
-                        minDate={new Date()}
-                        disabledDays={[0, 6]}
-                        disabledDates={getDisabledDates()}
-                        inline
-                        value={datePicked.value}
-                        onChange={value => datePicked.value = value.value}
-                    />
-                </div>
-
-                <div>
-                    <strong>Choose a Time</strong>
-                    <ListBox
-                        value={timePicked.value}
-                        onChange={value => timePicked.value = value.value}
-                        options={getAvailableTimes()}
-                    />
-                </div>
-                <p>{bookingService.value.name} on {datePicked.value.toLocaleDateString('en-ca')} at {getTimeFormat(timePicked.value)} for ${bookingService.value.cost}</p>
-                <p id="notice"></p>
-                <button className="customButton greenBtn" onClick={(e) => { checkTimeConflicts(datePicked.value, timePicked.value) }}>Book</button>
-
+        <div className="datePicker">
+            <h2>Booking for {bookingService.value.name}</h2>
+            <div >
+                <h3>Choose a Date</h3>
+                <Calendar
+                    minDate={new Date()}
+                    disabledDays={[0, 6]}
+                    disabledDates={getDisabledDates()}
+                    inline
+                    value={datePicked.value}
+                    onChange={value => { datePicked.value = value.value; timePicked.value = 0; }}
+                />
             </div>
-        </Dialog>
+{datePicked.value != 0 ? (<div>
+                <h3>Choose a Time</h3>
+                <ListBox
+                    value={timePicked.value}
+                    onChange={value => timePicked.value = value.value}
+                    options={getAvailableTimes()}
+                />
+            </div>
+) : null}
+            {datePicked.value != 0 && timePicked.value != 0 ? <h3>{bookingService.value.name} on {datePicked.value.toDateString()} at {getTimeFormat(timePicked.value)} for ${bookingService.value.cost}</h3> : null}
+            <p id="notice"></p>
+            <button className="customButton greenBtn" onClick={(e) => { checkTimeConflicts(datePicked.value, timePicked.value) }}>Book</button>
+
+        </div>
+
     );
 };
 

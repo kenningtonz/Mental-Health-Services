@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { currentUser } from "../index.js";
 import { completePurchase, getTotalCost } from '../functions/orders.js'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 
 
@@ -11,63 +11,70 @@ import { Steps } from 'primereact/steps';
 
 import { PaymentForm, UserInfoForm, CartItemsTable, UserInfo } from "../components";
 
+
 const activeStep = signal(0);
 
 
 const Checkout = () => {
 
-
-    const navigate = useNavigate();
-
-    const steps = [{ label: "Your Details" }, { label: "Payment" }, { label: "Review" }, { label: "Complete" }]
-
-    function stepSelect(event) {
-        if (event.index < activeStep.value) {
-            activeStep.value = event.index;
-        }
-    }
+    const steps = [{ label: "Details" }, { label: "Payment" }, { label: "Review" }]
 
     function setActiveStep(step) {
         activeStep.value = step;
     }
 
-    return (
-        <main>
-            <Link to="/cart">  back to cart</Link>
-            <div className="card">
-                <h1>Checkout</h1>
-                <Steps model={steps} activeIndex={activeStep.value} />
-            </div>
+    if (currentUser.value.cart == undefined) {
+        console.log("no cart")
+        // navigate('/cart');
+        return (<Navigate to="/" />)
+    }
+    else
+        return (
+            <main>
+                <Link to="/cart"><button className="customButton redBtn" style={{ marginTop: 1 + 'rem', marginLeft: 1 + 'rem' }}>Back</button></Link>
+                <div className="card">
+                    {/* <h1>Checkout</h1> */}
+                    <Steps model={steps} activeIndex={activeStep.value} />
+                    <h2>Order Details</h2>
+                    <CartItemsTable showLink={false} showRemove={false} />
 
+                    <section>
+                        <p>Cost: {"$" + getTotalCost().beforeTax}</p>
+                        <p>Tax: {"$" + getTotalCost().beforeTax}</p>
+                        <p><strong>Total Cost {"$" + getTotalCost().withTax}</strong></p>
+                    </section>
 
-            <section className="card">
-                <h2>Order</h2>
-                <CartItemsTable showLink={false} showRemove={false} />
+                </div>
 
-                <p>total cost before tax: {"$" + getTotalCost().beforeTax}</p>
-                <p>total cost with tax: {"$" + getTotalCost().withTax}</p>
-            </section>
+                {activeStep.value == 0 ? <UserInfoForm extraFunction={setActiveStep} /> : null}
+                {activeStep.value == 1 ? <PaymentForm extraFunction={setActiveStep} /> : null}
+                {activeStep.value == 2 ? <Review /> : null}
 
-            {activeStep.value == 0 ? <UserInfoForm extraFunction={setActiveStep(1)} /> : activeStep.value == 1 ? <PaymentForm extraFunction={setActiveStep(2)} /> : activeStep.value == 2 ? <Review /> : <PurchaseComplete />}
-
-        </main>
-    )
+            </main>
+        )
 }
 
 export default Checkout;
 
+
+
 const Review = () => {
+    const navigate = useNavigate();
     function nextStep(event) {
         event.preventDefault();
         completePurchase();
-        activeStep.value = 3;
-        // navigate('/cart/checkout/success')
+
+        navigate('/cart/checkout/success')
     }
     return (
         <section>
             <h2>Review</h2>
             <UserInfo showPayment={true} />
-            <button className="customButton greenBtn width-100" onClick={completePurchase}>Complete Purchase</button>
+            <div className="flex">
+                <button className="customButton redBtn width-25" onClick={nextStep}>Back</button>
+                <button className="customButton greenBtn width-25" onClick={nextStep}>Complete Purchase</button>
+
+            </div>
         </section>
     )
 

@@ -1,11 +1,74 @@
 @import 'variables';
 
+@media screen and (max-width: 400px) {
+    #root {
+        flex-direction: column;
+    }
+
+    nav {
+        ul {
+            flex-direction: row;
+        }
+
+        a {
+            i {
+                font-size: 1.8rem;
+            }
+        }
+
+        #cartNotice {     
+            top: -1px;
+            right: 20px;
+          }
+    }
+}
+
+#cartNotice {
+    position: relative;
+   
+    color: $cancelDark;
+
+    height: 0px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+
+@media screen and (min-width: 401px) {
+    #root {
+        flex-direction: row;
+    }
+    nav {
+        ul {
+            flex-direction: column;
+        }
+        a {
+            i {
+                font-size: 2rem;
+            }
+        }
+
+        #cartNotice {     
+            top: 0px;
+            right: 20px;
+          }
+    }
+}
+
+#root {
+    /* padding: 2rem; */
+    display: flex;
+
+    min-height: 100vh;
+}
+
 
 .mainHeader {
-    padding: 0.5rem;
-    background-color: #282c34;
+    // padding: 0.5rem;
+    background-color: $background;
     color: white;
-    box-shadow: 2px 0 6px $text-color ;
+
+    box-shadow: 3px 0px 5px black;
 }
 
 .body {
@@ -13,19 +76,16 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    background-color: #D3D3D3;
 }
 
 body {
     margin: 0px;
     min-height: 100vh;
-    background-color: $background;
+    // background-color: $background;
 }
 
-main {
-    padding: 1rem;
-}
-
-nav {
+.nav {
     position: sticky;
     top: 0;
 
@@ -33,8 +93,8 @@ nav {
         color: white;
         text-decoration: none;
         text-align: center;
+        justify-content: center;
         display: flex;
-        flex-direction: column;
         font-size: 0.8rem;
 
         img {
@@ -44,7 +104,6 @@ nav {
         }
 
         i {
-            font-size: 2rem;
             transition: all .2s ease-in-out;
             display: block;
         }
@@ -52,7 +111,6 @@ nav {
         img:hover,
         i:hover {
             transform: scale(1.1);
-
         }
 
     }
@@ -63,17 +121,16 @@ nav {
 
     ul {
         display: flex;
-        flex-direction: column;
         justify-content: space-between;
         align-items: center;
 
-        background-color: #282c34;
+        // background-color: #282c34;
         color: white;
         list-style: none;
 
         li {
             padding: 1rem 0.5rem;
-            background-color: #282c34;
+            // background-color: #282c34;
             color: white;
             // margin: 0.5rem;
 
@@ -83,11 +140,15 @@ nav {
 
 footer {
     margin-top: auto;
-    height: 2rem;
+    height: 3rem;
     width: 100%;
-    background-color: $link-color;
+    background-color: $background;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 
     p {
-        color: $background;
+        color: white;
     }
+
 }

@@ -7,14 +7,32 @@ $darkLavender: #6c5b7b;
 $red: #F08080;
 $darkRed: #7b3e3e;
 
+$background: #231c19;
+// $background: #67213d;
+
+
+
+$cancel: #D06C5C;
+$cancelDark: #7b3e3e;
+$confirm: #C8CA62;
+$confirmDark: #4d4f23;
+
+$other: #FBD18E;
+$otherDark: #7b6e3e;
+
+$cardBackground: #FDFCFA;
 $grey: #D3D3D3;
 $warm: #A1887F;
-$background: #eae3e1;
+// $background: #eae3e1;
 $text-color: #282c34;
-$link-color: #4a3b35;
+// $link-color: #4a3b35;
+$link-color: #2e2420;
 
-$boxshadow: 1px 1px 5px 0 $text-color;
+
+$boxshadow: 1px 1px 3px 0 $link-color;
 
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Playpen+Sans:wght@400;500;700&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
 
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');

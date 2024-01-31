@@ -4,7 +4,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from "primereact/button";
 import {tempCartItems } from "../functions/cart.js";
-
+import { getTimeFormat } from "../functions/general";
 
 
 const CartItemsTable = ({ showRemove, showLink }) => {
@@ -22,21 +22,21 @@ const CartItemsTable = ({ showRemove, showLink }) => {
         return "$" + cartItem.cost;
     }
     const dateDataTemplate = (cartItem) => {
-        return cartItem.date.toDate().toDateString() + " at " + cartItem.time;
+        return cartItem.date + " at " + getTimeFormat(cartItem.time);
     }
     const removeDataTemplate = (cartItem) => {
-        return <Button onClick={() => { removeFromCart(cartItem.cartItemID); tempCartItems.value = [...tempCartItems.value] }} icon="pi pi-times" rounded severity="danger" aria-label="Cancel" />;
+        return <Button onClick={() => { removeFromCart(cartItem.cartItemID); tempCartItems.value = [...tempCartItems.value] }} style={{width:30+'px', height:30+'px', margin:0.4+"rem"}} icon="fa-solid fa-x" rounded severity="danger" aria-label="Cancel" />;
     }
 
     return (
-        <section className="card">
+      
             <DataTable value={tempCartItems.value} >
                 <Column body={nameDataTemplate} header="Title" key="cartItemID" align={"left"}></Column>
                 <Column header="Date" key="cartItemID" body={dateDataTemplate} align={"left"}></Column>
                 <Column header="Cost" key="cartItemID" body={costDataTemplate} align={"left"}></Column>
                 {showRemove ? <Column body={removeDataTemplate} header="Remove"></Column> : null}
             </DataTable>
-        </section>
+
     )
 
 }

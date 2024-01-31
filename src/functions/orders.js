@@ -1,8 +1,8 @@
-import { collection, updateDoc, doc, onSnapshot, query, addDoc } from "firebase/firestore";
+import { collection, updateDoc, doc, onSnapshot, query, addDoc, deleteField } from "firebase/firestore";
 import { db } from "../firebase.js";
 import { currentUser } from "../index.js";
 
-
+import {setTempCartItems} from "./cart.js";
 export const reservations = [];
 
 class Order {
@@ -50,21 +50,32 @@ const reservationsSnapshot = onSnapshot(query(collection(db, "reservations")), (
 });
 
 export function completePurchase() {
-    let order = new Order(currentUser.value.id, currentUser.value.cart, new Date(Date.now()), getTotalCost().withTax);
-
-    currentUser.value.cart = [];
-    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
-        cart: currentUser.value.cart
-    });
-
+let order = {userID: currentUser.value.userID, services: currentUser.value.cart.cartItems, date: (new Date(Date.now())).toDateString(), cost: getTotalCost().withTax};
+    currentUser.value.cart = undefined;
+    setTempCartItems();
+   
     for (const service of order.services) {
-        service.setReservationID(saveReservation(new Reservation(service.serviceID, service.date, service.time)));
+        let reservation = { serviceID: service.id, date: service.date, time: service.time, userID: currentUser.value.userID};
+        addDoc(collection(db, "reservations"), reservation)
+        .then(function (docRef) {
+            // updateDoc(doc(db, 'orders', `${docRef.id}`), {
+            //     reservationID: docRef.id
+            // });
+            service.reservationID = docRef.id;
+        })
     }
-
-    currentUser.value.purchases.push(order);
-    updateDoc(doc(db, 'users', `${currentUser.value.id}`), {
-        orders: currentUser.value.purchases
+    if (currentUser.value.orders === undefined) {
+        currentUser.value.orders = [order];
+    } else {
+        currentUser.value.orders.push(order);
+    }
+    updateDoc(doc(db, 'users', `${currentUser.value.userID}`), {
+        cart: deleteField(),
+        orders: currentUser.value.orders
     });
+
+
+
 
     console.log("completed purchase")
 }
@@ -77,13 +88,3 @@ export function getTotalCost() {
     return { beforeTax: total.toFixed(2), withTax: (total * 1.13).toFixed(2) };
 }
 
-
-function saveReservation(reservation) {
-    addDoc(collection(db, "reservations"), reservation)
-        .then(function (docRef) {
-            updateDoc(doc(db, 'orders', `${docRef.id}`), {
-                reservationID: docRef.id
-            });
-            return docRef.id;
-        })
-}

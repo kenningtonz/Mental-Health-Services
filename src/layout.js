@@ -1,9 +1,10 @@
 import { Outlet, Link, Navigate } from "react-router-dom";
-import {cartLength, currentUser } from "./index.js";
 import {signUserOut } from "./functions/userAuth.js";
 import { loggedIn } from "./index.js";
 import logo from './images/logo.png';
 import {Button } from 'primereact/button';
+
+import { cartLength } from "./functions/cart.js";
 
 const Layout = () => {
     if (!loggedIn.value) {
@@ -12,24 +13,22 @@ const Layout = () => {
         return (
             <>
                 <header className="mainHeader">
-                    <nav>
+                    <nav className="nav">
                         <ul >
                             <li>
                                 <Link to="/"><img src={logo} alt="" /> </Link>
                             </li>
                             <li>
-                                <Link to="/services"><i className="fa-solid fa-list-ul"></i>Services</Link>
+                                <Link ariaLabel="services" to="/services"><i className="fa-solid fa-list-ul"></i></Link>
                             </li>
                             <li>
-                                <Link to="/cart">
-                                <Button type="button" icon="fa-solid fa-cart-shopping" aria-label="Cart"  text /></Link>
-                            </li>
-                            {/* badge={currentUser.cart.value.length == 0 ? '': currentUser.cart.value.length } */}
-                            <li>
-                                <Link to="/user"><i className="fa-solid fa-user"></i>User</Link>
+                            <Link ariaLabel="cart"  to="/cart"><i className="fa-solid fa-cart-shopping"></i><i id="cartNotice">{cartLength.value == 0 ? '': cartLength.value}</i></Link>
                             </li>
                             <li>
-                                <Link to="/landing/signin" onClick={signUserOut}><i className="fa-solid fa-right-from-bracket"></i>Sign Out</Link>
+                                <Link ariaLabel="user" to="/user"><i className="fa-solid fa-user"></i></Link>
+                            </li>
+                            <li>
+                                <Link ariaLabel="sign out" to="/landing/signin" onClick={signUserOut}><i className="fa-solid fa-right-from-bracket"></i></Link>
                             </li>
                         </ul>
                     </nav>
@@ -39,7 +38,8 @@ const Layout = () => {
                     <Outlet />
 
                     <footer>
-                        <p>© 2023</p>
+                        <p>Radiant Realms © {(new Date()).getFullYear()} </p>
+                        <p>Images and Content were generated using AI</p>
                     </footer>
                 </div>
             </>
