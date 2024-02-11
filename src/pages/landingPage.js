@@ -1,5 +1,5 @@
 import { Outlet, useNavigate, Navigate } from "react-router-dom";
-import image from "../imageholder.png";
+
 import { signal } from "@preact/signals";
 import logo from '../images/logo.png';
 import { loggedIn } from "../index.js";
@@ -23,21 +23,10 @@ export const getDefault = (val) => {
 const LandingPage = () => {
     const navigate = useNavigate();
     useEffect(() => {
-        // const localStorageInfo = localStorage.getItem('loggedIn')
-        // console.log(localStorageInfo)
-        // if (localStorageInfo == `1`) {
-            // loggedIn.value = true
-            // console.log(loggedInUser.value)
-            // loggedIn.value=checkIsSignedIn();
-            if(loggedIn.value){
-                navigate('/');
-            }
-        // }
-    },[])
-    // if (loggedInUser.value != null) {
-    //     return <Navigate replace to='/' />
-    // } else
-                // console.log(loggedInUser.value)
+        if (loggedIn.value) {
+            navigate('/');
+        }
+    }, [])
     return (
         <>
             <main className='landingPage'>

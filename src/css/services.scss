@@ -1,16 +1,24 @@
 @import 'variables';
 
 .filters {
-    padding-left: 1rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1rem;
     display: flex;
     gap: 0.5rem;
-    button {
-        width: 100%;
+
+    section {
+        flex: 1 1 30%;
     }
+
     .p-dropdown {
         width: 100%;
         border-radius: 10px;
         padding: 0.2rem;
+    }
+
+    button {
+        width: 100%;
     }
 
     h3 {
@@ -18,54 +26,30 @@
     }
 }
 
+.servicesList {
+    padding: 0 1rem;
+}
+
 .p-dropdown:not(.p-disabled).p-focus {
     outline: 0 none;
     outline-offset: 0;
-    box-shadow: inset 0 0 0 0.15rem $confirm;
+    box-shadow: inset 0 0 0 0.15rem $indigo;
 }
 
 li.p-dropdown-item.p-highlight {
-    background-color: $confirm;
+    background-color: $indigo;
 }
 
 .p-dropdown-item {
     border-radius: 4px;
     padding: 0.2rem;
     margin: 0.2rem;
-
 }
 
-.heroSection {
-    position: relative;
-    width: 100%;
-
-    img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        text-align: left;
-        filter: blur(1px);
-    }
-
-    .heroText {
-        position: absolute;
-        top: 40%;
-        left: 10%;
-        color: white;
-        text-shadow: 2px 2px 4px black;
-    }
-
-    h1 {
-        font-size: 4rem;
-        text-align: left;
-        font-family: 'Caveat', cursive;
-    }
-}
 
 .servicesList {
     container-name: servicesList;
     container-type: inline-size;
-    flex: 1 70%;
     padding-right: 1rem;
 
     ul {
@@ -80,16 +64,30 @@ li.p-dropdown-item.p-highlight {
     .serviceCard a {
         flex-direction: column;
     }
+
+    .serviceCard img {
+        width: 100%;
+
+    }
 }
 
 @container servicesList (width > 300px) {
-    .serviceCard a {
-        flex-direction: row;
+    .serviceCard {
+        flex: 1 1 49%;
+
+        img {
+            width: 30%;
+        }
+
+        a {
+            flex-direction: row;
+        }
     }
 }
 
 .serviceCard {
     transition: all .2s ease-in-out;
+
 
     &:hover {
         scale: 1.03;
@@ -97,13 +95,10 @@ li.p-dropdown-item.p-highlight {
 
     a {
         display: flex;
-
         gap: 1rem;
-
         text-decoration: none;
         align-items: center;
         padding: 1rem;
-
     }
 
     h3 {
@@ -112,8 +107,8 @@ li.p-dropdown-item.p-highlight {
     }
 
     border-radius: 10px;
-    background-color: white;
-    box-shadow: $boxshadow;
+    background-color: $white;
+    box-shadow: $boxShadow;
 
     div {
         display: flex;
@@ -121,14 +116,11 @@ li.p-dropdown-item.p-highlight {
         gap: 0.5rem;
     }
 
-    width: 100%;
-
-
     img {
-        width: 30%;
+
         height: auto;
         position: relative;
-        border-radius: 10px;
+        border-radius: 4px;
     }
 
     p {
@@ -142,13 +134,13 @@ li.p-dropdown-item.p-highlight {
     display: flex;
     flex-wrap: wrap;
 
-    img {
-        flex: 1 1 48%;
-        width: 45%;
+    svg {
+        flex: 1 1 40%;
+        width: 40%;
         height: auto;
         margin: 10px;
         border-radius: 4px;
-        box-shadow: $boxshadow;
+
     }
 
     h2 {
@@ -162,52 +154,5 @@ li.p-dropdown-item.p-highlight {
 
     ul {
         margin-left: 1rem;
-    }
-}
-
-.servicesPage {
-    container-name: servicesPage;
-    container-type: inline-size;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-
-}
-
-
-
-@container servicesPage (width < 500px) {
-    .filters {
-        flex: 1 100%;
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 0 1rem;
-
-        section {
-            flex: 1 1 30%;
-
-        }
-    }
-
-    .servicesList {
-        padding: 0 1rem;
-    }
-
-    .servicesPage {
-        flex-direction: column;
-    }
-}
-
-@container servicesPage (width > 500px) {
-    .filters {
-        flex: 0 1 25%;
-        max-width: 200px;
-        flex-direction: column;
-
-    }
-
-    .servicesPage {
-        flex-direction: row;
-        flex-wrap: wrap;
     }
 }

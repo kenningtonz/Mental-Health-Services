@@ -85,23 +85,23 @@ export function resetFilters() {
 export const Filters = () => {
     return (<section className="filters">
         {/* <h2>Filters</h2> */}
-        <button onClick={resetFilters} className="customButton blueBtn">Reset Filters</button>
-        <section>
+        {/* <button onClick={resetFilters} className="customButton blueBtn">Reset Filters</button> */}
+        <section >
             <h3 className="textCenter">Categories</h3>
-            <Dropdown value={typeFilter.value} onChange={(e) => setTypesFilter(e.value)}  options={filterTypes}/>
+            <Dropdown value={typeFilter.value} onChange={(e) => setTypesFilter(e.value)} options={filterTypes} />
             {/* <ListBox value={typeFilter.value} dataKey="" onChange={(e) => setTypesFilter(e.value)} options={filterTypes} className="" /> */}
         </section>
         <section className="">
-        <h3 className="textCenter">Conditions</h3>
-        <Dropdown value={conditionsFilter.value} onChange={(e) => setConditionsFilter(e.value)}  options={filterConditions}/>
+            <h3 className="textCenter">Conditions</h3>
+            <Dropdown value={conditionsFilter.value} onChange={(e) => setConditionsFilter(e.value)} options={filterConditions} />
 
             {/* <ListBox value={conditionsFilter.value} onChange={(e) => setConditionsFilter(e.value)} options={filterConditions} className="" /> */}
         </section>
         <section className="">
-        <h3 className="textCenter">Cost</h3>
-        <Dropdown value={costFilter.value} onChange={(e) => setCostFilter(e.value)}  options={filterCosts}/>
+            <h3 className="textCenter">Cost</h3>
+            <Dropdown value={costFilter.value} onChange={(e) => setCostFilter(e.value)} options={filterCosts} />
 
-        {/* <ListBox value={costFilter.value} onChange={(e) => setCostFilter(e.value)} options={filterCosts} className="" /> */}
+            {/* <ListBox value={costFilter.value} onChange={(e) => setCostFilter(e.value)} options={filterCosts} className="" /> */}
 
         </section>
 

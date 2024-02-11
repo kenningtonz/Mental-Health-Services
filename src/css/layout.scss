@@ -16,73 +16,65 @@
             }
         }
 
-        #cartNotice {     
+        #cartNotice {
             top: -1px;
             right: 20px;
-          }
+        }
     }
 }
 
 #cartNotice {
     position: relative;
-   
-    color: $cancelDark;
-
+    // color: $cancelDark;
     height: 0px;
     font-size: 1rem;
     font-weight: bold;
-  }
-  
+}
+
 
 @media screen and (min-width: 401px) {
     #root {
         flex-direction: row;
     }
+
     nav {
         ul {
             flex-direction: column;
         }
+
         a {
             i {
                 font-size: 2rem;
             }
         }
 
-        #cartNotice {     
+        #cartNotice {
             top: 0px;
             right: 20px;
-          }
+        }
     }
 }
 
 #root {
-    /* padding: 2rem; */
     display: flex;
-
     min-height: 100vh;
 }
 
 
 .mainHeader {
-    // padding: 0.5rem;
-    background-color: $background;
     color: white;
-
     box-shadow: 3px 0px 5px black;
+    background-color: $text-color;
 }
 
-.body {
+
+main {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    background-color: #D3D3D3;
-}
-
-body {
-    margin: 0px;
+    background-color: $white;
     min-height: 100vh;
-    // background-color: $background;
 }
 
 .nav {
@@ -90,50 +82,49 @@ body {
     top: 0;
 
     a {
-        color: white;
+        color: $white;
         text-decoration: none;
         text-align: center;
         justify-content: center;
         display: flex;
         font-size: 0.8rem;
+        transition: all .2s ease-in-out;
 
         img {
             width: 60px;
             height: 60px;
-            transition: all .2s ease-in-out;
-        }
 
-        i {
-            transition: all .2s ease-in-out;
-            display: block;
         }
-
-        img:hover,
-        i:hover {
-            transform: scale(1.1);
-        }
-
     }
 
     a:hover {
-        color: $grey;
+        transform: scale(1.1);
+    }
+
+    a.blue:hover {
+        color: $blue;
+    }
+
+    a.pink:hover {
+        color: $pink;
+    }
+
+    a.yellow:hover {
+        color: $yellow;
+    }
+
+    a.orange:hover {
+        color: $orange;
     }
 
     ul {
         display: flex;
         justify-content: space-between;
         align-items: center;
-
-        // background-color: #282c34;
-        color: white;
         list-style: none;
 
         li {
             padding: 1rem 0.5rem;
-            // background-color: #282c34;
-            color: white;
-            // margin: 0.5rem;
-
         }
     }
 }
@@ -142,7 +133,7 @@ footer {
     margin-top: auto;
     height: 3rem;
     width: 100%;
-    background-color: $background;
+    background-color: $text-color;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -150,5 +141,4 @@ footer {
     p {
         color: white;
     }
-
 }
