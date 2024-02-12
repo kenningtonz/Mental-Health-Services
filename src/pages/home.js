@@ -37,7 +37,7 @@ const Home = () => {
                     <h2>Discover. Heal. Thrive. Radiantly.</h2>
                     <Link to="/services"><button className="btn primary">Book a Session Now</button></Link>
                 </section>
-                <svg preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" viewBox="0 300 1440 230"><path fill="#9FB4FF" fillOpacity="1" d="m0 460 48-21.3c48-21.7 144-63.7 240-37.4 96 26.7 192 122.7 288 122.7 96 0 192-96 288-144 96-48 192-48 288-26.7 96 21.7 192 63.7 240 85.4l48 21.3 0-460-1440 0z"></path></svg>
+                <svg className="mt-1" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" viewBox="0 300 1440 230"><path fill="#9FB4FF" fillOpacity="1" d="m0 460 48-21.3c48-21.7 144-63.7 240-37.4 96 26.7 192 122.7 288 122.7 96 0 192-96 288-144 96-48 192-48 288-26.7 96 21.7 192 63.7 240 85.4l48 21.3 0-460-1440 0z"></path></svg>
             </section>
 
 
@@ -58,7 +58,7 @@ const Home = () => {
 
             </section>
             <svg preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 260"><path fill="#A0D6F2" fillOpacity="1" d="M0,224L34.3,208C68.6,192,137,160,206,128C274.3,96,343,64,411,64C480,64,549,96,617,122.7C685.7,149,754,171,823,165.3C891.4,160,960,128,1029,149.3C1097.1,171,1166,245,1234,250.7C1302.9,256,1371,192,1406,160L1440,128L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
-            <section className="blueBG">
+            <section className="blueBG mt-1 mb-1">
                 <article className=" flex px1 gap-1 align-center wrap ">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         className="child-25"
@@ -101,7 +101,7 @@ const Home = () => {
             </article>
 
             <svg preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" viewBox="0 50 1440 260"><path fill="#A0D6F2" fillOpacity="1" d="M0,224L34.3,208C68.6,192,137,160,206,128C274.3,96,343,64,411,64C480,64,549,96,617,122.7C685.7,149,754,171,823,165.3C891.4,160,960,128,1029,149.3C1097.1,171,1166,245,1234,250.7C1302.9,256,1371,192,1406,160L1440,128L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
-            <section className="blueBG">
+            <section className="blueBG mt-1 mb-1">
                 <article className=" flex px1 gap-1 align-center wrap ">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         className="child-25"

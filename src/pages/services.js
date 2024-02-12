@@ -8,7 +8,7 @@ const Services = () => {
     return (
         <>
             <svg preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 280"><path fill="#ffe66a" fillOpacity="1" d="M0,224L34.3,208C68.6,192,137,160,206,128C274.3,96,343,64,411,64C480,64,549,96,617,122.7C685.7,149,754,171,823,165.3C891.4,160,960,128,1029,149.3C1097.1,171,1166,245,1234,250.7C1302.9,256,1371,192,1406,160L1440,128L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
-            <section className="yellowBG ">
+            <section className="yellowBG mt-1 mb-1">
                 <h1 className='textCenter flex flex-col gap-05 mb2'>     <i className="fa-solid fa-list"></i>Services</h1>
 
                 <Filters />
