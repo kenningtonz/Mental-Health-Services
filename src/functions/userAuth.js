@@ -14,7 +14,7 @@ const userAuthChanged = () => auth.onAuthStateChanged(authUser => {
     authUser
         ? localStorage.setItem('authUser', JSON.stringify(authUser))
         : localStorage.removeItem('authUser')
-        loggedIn.value = checkIsSignedIn();
+    loggedIn.value = checkIsSignedIn();
 });
 
 
@@ -131,7 +131,7 @@ async function getUserInfo(email) {
 export function checkIsSignedIn() {
     loggedInUser.value = JSON.parse(localStorage.getItem('authUser'));
     if (loggedInUser.value != null) {
-        getUserInfo(loggedInUser.value.email).then(() => {    setTempCartItems();});
+        getUserInfo(loggedInUser.value.email).then(() => { setTempCartItems(); });
         console.log("signed in");
         return true;
     }
@@ -156,6 +156,8 @@ function errorChecker(error) {
             return { error: true, message: 'Incorrect password' }
         case 'auth/user-not-found':
             return { error: true, message: 'User not found' }
+        case 'auth/invalid-login-credentials':
+            return { error: true, message: 'Invalid login credentials' }
         default:
             return { error: true, message: error.message }
     }
@@ -200,26 +202,28 @@ function changePassword(userInfo) {
     }
 }
 
-export function updateUserInfo(userInfo) {
-    console.log(userInfo);
-    console.log(currentUser.value.id);
+
+export function updateUserContact(firstName, lastName, phone) {
+
     updateDoc(doc(db, 'users', `${currentUser.value.userID}`), {
-        firstName: userInfo.firstName,
-        lastName: userInfo.lastName,
-        address: userInfo.address,
-        phone: userInfo.phone
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone
     });
-    currentUser.value.firstName = userInfo.firstName;
-    currentUser.value.lastName = userInfo.lastName;
-    currentUser.value.address = userInfo.address;
-    currentUser.value.phone = userInfo.phone;    
+    currentUser.value.firstName = firstName;
+    currentUser.value.lastName = lastName;
+    currentUser.value.phone = phone;
 }
-export function savePayment(userInfo) {
+export function updateUserBilling(payment, address) {
+
     updateDoc(doc(db, 'users', `${currentUser.value.userID}`), {
-        payment: userInfo
+        payment: payment,
+        address: address
     });
-    currentUser.value.payment = userInfo;
-    console.log("saved payment")
+
+    currentUser.value.payment = payment;
+    currentUser.value.address = address;
+    console.log("saved billing")
 }
 
 

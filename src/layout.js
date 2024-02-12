@@ -10,11 +10,11 @@ const Layout = () => {
             <Header />
             <main>
                 <Outlet />
-                <footer>
-                    <p>Radiant Realms © {(new Date()).getFullYear()} </p>
-                    <p>Images and Content were generated using AI</p>
-                </footer>
             </main>
+            <footer>
+                <p>Radiant Realms © {(new Date()).getFullYear()} </p>
+                <p>Images and Content were generated using AI</p>
+            </footer>
         </>
     )
 };

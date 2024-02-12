@@ -85,7 +85,6 @@ export function resetFilters() {
 export const Filters = () => {
     return (<section className="filters">
         {/* <h2>Filters</h2> */}
-        {/* <button onClick={resetFilters} className="customButton blueBtn">Reset Filters</button> */}
         <section >
             <h3 className="textCenter">Categories</h3>
             <Dropdown value={typeFilter.value} onChange={(e) => setTypesFilter(e.value)} options={filterTypes} />
@@ -104,6 +103,7 @@ export const Filters = () => {
             {/* <ListBox value={costFilter.value} onChange={(e) => setCostFilter(e.value)} options={filterCosts} className="" /> */}
 
         </section>
+        <button onClick={resetFilters} className="primary btn">Reset Filters</button>
 
 
     </section>)

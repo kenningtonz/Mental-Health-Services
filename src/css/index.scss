@@ -10,9 +10,6 @@
   font-family: 'Nunito', sans-serif;
 }
 
-
-
-
 h1 {
   font-size: 2rem;
   text-align: center;
@@ -27,38 +24,13 @@ h3 {
   font-size: 1.2rem;
 }
 
-.payment {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 auto;
-  text-align: center;
-
-  label {
-    font-weight: bold;
-  }
-
-  p {
-    display: block;
-  }
-
-  input {
-    margin-bottom: 0.5rem;
-  }
-
-}
 
 
 
-.hero {
-  position: relative;
+.heroText {
+  padding: 0 2rem;
 
-  .heroText {
-    position: absolute;
-    top: 40%;
-    left: 10%;
-    color: white;
-    text-shadow: 2px 2px 4px black;
-  }
+  margin-top: -1rem;
 
   h1 {
     font-size: 4rem;
@@ -94,25 +66,7 @@ a {
   color: $link-color;
 }
 
-.userInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 
-  label,
-  strong {
-    font-weight: bold;
-    margin-right: 0.3rem;
-  }
-
-  section {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
 
 input {
   padding: 0.5rem;
@@ -121,71 +75,61 @@ input {
   width: auto;
 }
 
-.customButton {
+.btn {
   color: $text-color;
-  // width: 100%;
-  padding: 0.6rem;
   border: none;
-  cursor: pointer;
+  padding: 0.5rem;
   border-radius: 4px;
+  cursor: pointer;
   transition: all .2s ease-in-out;
-
 
   a {
     text-decoration: none;
-    color: $text-color;
   }
 
-  // &.blueBtn {
-  //   background-color: ;
-  //   box-shadow: 1px 1px 2px $text-color;
+  &.secondary {
+    background-color: $blue;
+    border-bottom: solid 2px transparent;
 
-  //   &:hover {
-  //     background-color: $otherDark;
-  //   }
-  // }
+    &:hover {
+      border-bottom: solid 2px $blueDarker;
+    }
 
-  // &.redBtn {
-  //   background-color: $cancel;
-  //   box-shadow: 1px 1px 2px $text-color;
+    &:active {
+      border-bottom: solid 2px $blueDarker;
+    }
+  }
 
-  //   &:hover {
-  //     background-color: $cancelDark;
-  //   }
-  // }
+  &.primary {
+    background-color: $blueDarker;
+    color: $white;
+    border-bottom: solid 2px transparent;
 
-  // &.greenBtn {
-  //   background-color: $confirm;
-  //   box-shadow: 1px 1px 2px $text-color;
+    &:hover {
+      border-bottom: solid 2px $blue;
+    }
 
-  //   &:hover {
-  //     background-color: $confirmDark;
-  //   }
-  // }
-
-  // &.lavenderBtn {
-  //   background-color: $lavender;
-  //   box-shadow: 1px 1px 2px $text-color;
-
-  //   &:hover {
-  //     background-color: $darkLavender;
-  //   }
-  // }
+    &:active {
+      border-bottom: solid 2px $blue;
+    }
+  }
 
   &:hover,
   &:hover a {
-    scale: 1.03;
-    color: white;
-
+    scale: 1.02;
   }
+
+
 
   &:active {
-    scale: 1;
+    scale: 0.95;
   }
+
 }
 
+
+
 h2 {
-  text-align: center;
   font-size: 1.6rem;
 }
 
@@ -197,8 +141,11 @@ strong {
   padding: 1rem;
   height: auto;
   border-radius: 10px;
-  // background-color: $cardBackground;
+  background-color: $white;
+}
 
+.bgWhite {
+  background-color: $white;
 }
 
 
@@ -265,68 +212,4 @@ table.cart {
     padding: 0.5rem;
     // border-bottom: 1px solid $grey;
   }
-}
-
-.datePicker {
-  width: auto;
-  height: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 1rem;
-  gap: 1rem;
-
-  h2 {
-    text-align: center;
-    margin-bottom: 1rem;
-    width: 100%;
-  }
-
-  .p-datepicker {
-    width: auto !important;
-  }
-
-  .p-datepicker-today>span {
-    background: white;
-  }
-
-  button,
-  h3 {
-    flex: 1 1 100%;
-    text-align: center;
-  }
-
-  .p-listbox-list .p-listbox-item {
-    border-radius: 4px;
-    padding: 0.2rem;
-    margin: 0.2rem;
-  }
-
-  h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-
-}
-
-.p-highlight {
-  // background-color: $confirm;
-}
-
-.p-highlight.p-steps-item {
-  background-color: transparent;
-}
-
-.p-menuitem-link .p-steps-number {
-  // background-color: $confirm;
-}
-
-div.p-timeline-event-content {
-  font-size: 1.6rem;
-  font-weight: bold;
-  padding: 1rem;
-}
-
-div.p-timeline-event-opposite {
-  padding: 1rem;
 }

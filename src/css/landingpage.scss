@@ -1,29 +1,23 @@
 @import 'variables';
 
-.landingPageInfo {
-    text-align: center;
-}
 
 
-#root:has(.landingPage) {
-    flex-direction: column;
-    align-items: center;
-    container-type: inline-size;
-    container-name: landingPage;
+main:has(.landingPage) {
+    background-color: $blue;
 }
+
 
 .landingPage {
+    container-type: inline-size;
+    container-name: landingPage;
+    width: auto;
+    margin: 1rem;
+
     #notice {
         text-align: center;
         color: rgb(89, 16, 16);
         margin-bottom: 0.5rem;
     }
-
-    section {
-        padding: 1rem;
-        flex: 1;
-    }
-
 
     #landingLogo {
         text-align: center;
@@ -57,21 +51,32 @@
     img {
         width: 75%;
         height: auto;
+        align-self: center;
     }
 
-    display: flex;
-    flex-direction: row;
-    max-width: 800px;
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+    }
+
     justify-content: center;
-    margin: auto;
+
     border-radius: 10px;
-    background-color: white;
-    box-shadow: $boxShadow;
+    background-color: $white;
+
 }
 
 /* If the container is larger than 500px */
 @container landingPage (width < 500px) {
-    .landingPage {
-        flex-direction: column;
+    .landingPage div {
+        flex: 1 1 100%;
+    }
+}
+
+@container landingPage (width > 501px) {
+    .landingPage div {
+        flex: 1 1 48%;
     }
 }

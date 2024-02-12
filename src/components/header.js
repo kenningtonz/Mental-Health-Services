@@ -14,14 +14,14 @@ const Header = () => {
                         <Link to="/"><img src={logo} alt="logo" /> </Link>
                     </li>
                     <li>
-                        <Link className="orange" to="/services" ariaLabel="Services"><i className="fa-solid fa-list-ul"></i></Link>
+                        <Link className="yellow" to="/services" ariaLabel="Services"><i className="fa-solid fa-list-ul"></i></Link>
                     </li>
                     {loggedIn.value ? (<>
                         <li>
-                            <Link className="pink" to="/cart" ariaLabel="Cart"><i className="fa-solid fa-cart-shopping"></i><i id="cartNotice">{cartLength.value == 0 ? '' : cartLength.value}</i></Link>
+                            <Link className="red" to="/cart" ariaLabel="Cart"><i className="fa-solid fa-cart-shopping"></i><i id="cartNotice">{cartLength.value == 0 ? '' : cartLength.value}</i></Link>
                         </li>
                         <li>
-                            <Link className="yellow" to="/user" ariaLabel="Profile" ><i className=" fa-solid fa-user"></i></Link>
+                            <Link className="orange" to="/user" ariaLabel="Profile" ><i className=" fa-solid fa-user"></i></Link>
                         </li>
                         <li>
                             <Link className="blue" to="/landing/signin" ariaLabel="Sign Out" onClick={signUserOut}><i className="fa-solid fa-right-from-bracket"></i></Link>

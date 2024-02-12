@@ -25,8 +25,9 @@
 
 #cartNotice {
     position: relative;
-    // color: $cancelDark;
+    color: $pinkDarker;
     height: 0px;
+    width: 0px;
     font-size: 1rem;
     font-weight: bold;
 }
@@ -36,6 +37,16 @@
     #root {
         flex-direction: row;
     }
+
+    .mainHeader {
+        flex: 0 0 76px;
+    }
+
+    main {
+        flex: 1 1 80%;
+    }
+
+
 
     nav {
         ul {
@@ -57,22 +68,23 @@
 
 #root {
     display: flex;
+    flex-wrap: wrap;
     min-height: 100vh;
+
 }
 
 
 .mainHeader {
-    color: white;
-    box-shadow: 3px 0px 5px black;
+    color: $white;
     background-color: $text-color;
 }
 
 
 main {
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    justify-content: center;
     background-color: $white;
     min-height: 100vh;
 }
@@ -93,7 +105,6 @@ main {
         img {
             width: 60px;
             height: 60px;
-
         }
     }
 
@@ -107,6 +118,10 @@ main {
 
     a.pink:hover {
         color: $pink;
+    }
+
+    a.red:hover {
+        color: $red;
     }
 
     a.yellow:hover {

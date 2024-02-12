@@ -28,22 +28,16 @@ const LandingPage = () => {
         }
     }, [])
     return (
-        <>
-            <main className='landingPage'>
-                <section className="landingPageInfo child">
-                    <img src={logo} alt="" />
-                    <h1>Radiant Realms</h1>
-                    <p>Discover. Heal. Thrive. Radiantly.</p>
-                </section>
-                <section className="landingPageSign child">
-                    <Outlet />
-                </section>
-            </main>
-            <footer>
-                <p>© 2023</p>
-            </footer>
-        </>
-
+        <section className='landingPage flex wrap p1 blueShadow'>
+            <div className=" textCenter">
+                <img src={logo} alt="" />
+                <h1>Radiant Realms</h1>
+                <p>Discover. Heal. Thrive. Radiantly.</p>
+            </div>
+            <div className="">
+                <Outlet />
+            </div>
+        </section>
     )
 }
 

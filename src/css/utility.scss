@@ -30,6 +30,10 @@
     background-color: $blue;
 }
 
+.indigoBG {
+    background-color: $indigo;
+}
+
 .yellowBG {
     background-color: $yellow;
 }
@@ -58,8 +62,24 @@
     box-shadow: 4px 4px 0 0 $orangeDark;
 }
 
+.text1-4 {
+    font-size: 1.4rem;
+}
+
+.noliststyle {
+    list-style: none;
+}
+
+.text1-2 {
+    font-size: 1.2rem;
+}
+
 .textCenter {
     text-align: center;
+}
+
+.textLeft {
+    text-align: left;
 }
 
 .bold {
@@ -67,21 +87,43 @@
 }
 
 .flex-col {
-    flex-direction: row;
+    flex-direction: column;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+.space-between {
+    justify-content: space-between;
 }
 
 .wrap {
     flex-wrap: wrap;
 }
 
+.gap-1 {
+    gap: 1rem;
+}
 
+.gap-05 {
+    gap: 0.5rem;
+}
+
+.align-stretch {
+    align-items: stretch;
+}
 
 .flex {
     display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    margin: 1rem;
-    gap: 1.8rem;
 
     .child-50 {
         flex: 1 1 48%;
@@ -117,10 +159,45 @@
     padding: 1rem;
 }
 
+.p2 {
+    padding: 2rem;
+
+}
+
 .pt1 {
     padding-top: 1rem;
 }
 
 .pt2 {
     padding-top: 2rem;
+}
+
+.px1 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.py1 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.ml2 {
+    margin-left: 2rem;
+}
+
+.mb2 {
+    margin-bottom: 2rem;
+}
+
+.mt1 {
+    margin-top: 1rem;
+}
+
+.ml1 {
+    margin-left: 1rem;
+}
+
+.ml-2 {
+    margin-left: -2rem;
 }

@@ -4,8 +4,10 @@ import { render } from "react-dom";
 import { signal } from "@preact/signals-react";
 import { BrowserRouter, Route, Routes, Navigate, Switch, useLocation, useRoutes } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { UserInfo, ForgotPass, SignIn, SignUp, EditUser, Loading } from './components';
+import { ForgotPass, SignIn, SignUp, EditUser, Loading } from './components';
 import { Cart, Checkout, PurchaseComplete, LandingPage, UserProfile, Home, Service, Services } from './pages';
+
+import ProtectedRoute from './protectedRoute';
 
 import { checkIsSignedIn } from './functions/userAuth';
 
@@ -15,6 +17,7 @@ import './css/services.scss';
 import './css/layout.scss'
 import './css/utility.scss';
 import './theme/theme.scss';
+import './css/primereactOverrides.scss'
 import Layout from './layout';
 
 // const AnimatedRoutes = useRoutes([
@@ -74,9 +77,10 @@ const AnimatedRoutes = () => {
             <Route path="cart/checkout/success" element={<PurchaseComplete />} />
 
             {/* user page */}
-            <Route path="user/*" element={<UserProfile />}>
-              <Route path="" element={<UserInfo canEdit={true} />} />
-              <Route path="edit" element={<EditUser />} />
+            <Route path="user/" element={<UserProfile />}>
+              {/* <Route path="contact" element={<UserContactInfo />} />
+              <Route path="billing" element={<EditUser />} />
+              <Route path="history" element={<EditUser />} /> */}
             </Route>
 
             <Route path="/services" element={<Services />}>
@@ -110,22 +114,22 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes >
-        <Route path="/landing/" element={<LandingPage />} >
-          <Route path="signin" element={<SignIn />} />
-          <Route path="signup" element={<SignUp />} />
-          {/* <Route path="forgotpass" element={<ForgotPass />} /> */}
-        </Route>
+
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/landing/" element={<LandingPage />} >
+            <Route path="signin" element={<SignIn />} />
+            <Route path="signup" element={<SignUp />} />
+            {/* <Route path="forgotpass" element={<ForgotPass />} /> */}
+          </Route>
           {/* cart page */}
-          <Route path="cart/*" element={<Cart />} />
+          <Route path="cart/*" element={<ProtectedRoute children={<Cart />} />} />
           <Route path="cart/checkout" element={<Checkout />} />
           <Route path="cart/checkout/success" element={<PurchaseComplete />} />
 
           {/* user page */}
-          <Route path="user/*" element={<UserProfile />}>
-            <Route path="" element={<UserInfo canEdit={true} />} />
-            <Route path="edit" element={<EditUser />} />
+          <Route path="user/" element={<ProtectedRoute children={<UserProfile />} />}>
+
           </Route>
 
           <Route path="/services" element={<Services />}>

@@ -31,7 +31,7 @@ const SignUp = () => {
         let user = { email: email, password: password, firstName: f, lastName: l };
         // let message = await 
 
-        const  getMessage = async (user) => {
+        const getMessage = async (user) => {
             let message = await signUp(user);
             console.log(message);
             if (message.error) {
@@ -59,7 +59,7 @@ const SignUp = () => {
                 <label htmlFor="lastname">Last Name</label>
                 <input type="text" id="lastname" required onChange={handleFormChange} />
                 <p id="notice"></p>
-                <button type="submit"> Create an Account</button>
+                <button className="btn primary" type="submit"> Create an Account</button>
                 <Link to="/landing/signin" className="landingLink">Sign In</Link>
             </form>
         </>

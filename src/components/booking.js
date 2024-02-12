@@ -97,30 +97,34 @@ export const Booking = () => {
     }
     return (
         <div className="datePicker">
-            <h2>Booking for {bookingService.value.name}</h2>
-            <div >
-                <h3>Choose a Date</h3>
-                <Calendar
-                    minDate={new Date()}
-                    disabledDays={[0, 6]}
-                    disabledDates={getDisabledDates()}
-                    inline
-                    value={datePicked.value}
-                    onChange={value => { datePicked.value = value.value; timePicked.value = 0; }}
-                />
-            </div>
-{datePicked.value != 0 ? (<div>
-                <h3>Choose a Time</h3>
-                <ListBox
-                    value={timePicked.value}
-                    onChange={value => timePicked.value = value.value}
-                    options={getAvailableTimes()}
-                />
-            </div>
-) : null}
+            <h2 className="child-100" >Booking for {bookingService.value.name}</h2>
+            <section className="flex wrap gap-1 justify-center textCenter">
+                <div className="child-50">
+                    <h3>Choose a Date</h3>
+                    <Calendar
+                        minDate={new Date()}
+                        disabledDays={[0, 6]}
+                        disabledDates={getDisabledDates()}
+                        inline
+                        value={datePicked.value}
+                        onChange={value => { datePicked.value = value.value; timePicked.value = 0; }}
+                    />
+                </div>
+                {datePicked.value != 0 ? (<div className="child-50">
+                    <h3>Choose a Time</h3>
+                    <ListBox
+                        value={timePicked.value}
+                        onChange={value => timePicked.value = value.value}
+                        options={getAvailableTimes()}
+                    />
+                </div>
+                ) : null}
+            </section>
+
             {datePicked.value != 0 && timePicked.value != 0 ? <h3>{bookingService.value.name} on {datePicked.value.toDateString()} at {getTimeFormat(timePicked.value)} for ${bookingService.value.cost}</h3> : null}
             <p id="notice"></p>
-            <button className="customButton greenBtn" onClick={(e) => { checkTimeConflicts(datePicked.value, timePicked.value) }}>Book</button>
+            {datePicked.value != 0 && timePicked.value != 0 ? <button className="btn primary" onClick={(e) => { checkTimeConflicts(datePicked.value, timePicked.value) }}>Book</button> : null}
+
 
         </div>
 
